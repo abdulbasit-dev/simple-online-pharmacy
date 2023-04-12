@@ -1,0 +1,509 @@
+html {
+  scroll-behavior: smooth !important;
+}
+
+/* Variables */
+/* footer color  */
+
+/* apply above font to the whole website */
+* {
+  font-family: Poppins, sans-serif !important;
+}
+
+body {
+  /* background: #74788d; default them color */
+  background: white !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.image-cell img {
+  float: right;
+}
+
+.btn-primary {
+  transition: all 0.4s ease !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  color: #fff !important;
+  /* background: linear-gradient(90deg, #fdc52c, #154284) !important;
+    border:none !important; */
+  background-color: #cd122d !important;
+  border-color: #cd122d !important;
+}
+
+.required-astrict::after {
+  content: '*';
+  padding-left: 2px;
+  color: #f46a6a;
+}
+
+/* ======= Navbar ========*/
+header nav {
+  background: linear-gradient(45deg, #1e2341, #1c2341, #0c1a33) !important;
+}
+
+.nav-item {
+  padding: 0 0.15rem !important;
+}
+
+.nav-item a {
+  color: white !important;
+  font-size: 1.1rem !important;
+  word-spacing: -1px !important;
+  transition: all 0.3s ease !important;
+}
+
+.nav-item a:hover {
+  color: #fdc52c !important;
+  cursor: pointer !important;
+}
+
+.active-link a {
+  color: #fdc52c !important;
+}
+
+.lang-btn {
+  color: rgba(166, 170, 189, 1) !important;
+  transition-duration: 0.15s !important;
+  background: transparent !important;
+  transition-property: all !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  text-align: center !important;
+  padding-bottom: 0.25rem !important;
+  padding-top: 0.25rem !important;
+  border-radius: 2rem !important;
+  line-height: 1.5rem !important;
+  width: 8rem;
+  border: 1px solid rgba(166, 170, 189, 1) !important;
+}
+
+.lang-btn:hover {
+  opacity: 0.7;
+}
+
+.lang-dropdown {
+  min-width: 8rem !important;
+}
+/* ======= End Navbar ========*/
+
+/* ======= Footer ========*/
+footer {
+  margin-top: auto;
+  background: linear-gradient(45deg, #1e2341, #1c2341, #0c1a33);
+}
+
+footer .footer_copy-right {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.site-map-link {
+  transition: all 0.3s ease;
+  display: block !important;
+  margin-bottom: 0.6rem;
+}
+
+/* while hover over the a draw a line in bottom */
+.site-map-link:hover {
+  color: #fdc52c !important;
+}
+
+.footer-about,
+.footer-contact {
+  line-height: 1.6rem;
+}
+/* ======= End Footer ========*/
+
+.hero-image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(70vh - 70px);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+}
+
+.a {
+  height: calc(80vh - 70px);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #fdc52c, #154284);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #fff;
+}
+
+.card-shadow {
+  border: 0.1rem solid #efefef !important;
+  /* box-shadow: 0 0 0.8rem 0 rgb(0 0 0 / 6%) !important; */
+  transition: box-shadow 0.3s ease !important;
+  /* make border shadow glowing */
+  animation: glowing 1s ease-in-out infinite alternate;
+}
+
+@keyframes glowing {
+  from {
+    box-shadow: 0 0 0.8rem 0 rgb(0 0 0 / 6%), 0 0 0.8rem 0 rgb(0 0 0 / 6%);
+  }
+  to {
+    box-shadow: 0 0 0.8rem 0 rgb(0 0 0 / 6%), 0 0 0.8rem 0 rgb(0 0 0 / 6%), 0 0 0.8rem 0 rgb(0 0 0 / 6%);
+  }
+}
+
+.card-shadow:hover {
+  box-shadow: 0 0 1.4rem rgb(0 0 0 / 20%) !important;
+}
+
+/* ===============
+    Home Page
+================== */
+.home_hero-image {
+  height: calc(70vh - 70px);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/frontend/images/page-covers/home.jpg');
+}
+
+.title,
+.subtitle {
+  color: white;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #fdc52c;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: white;
+}
+
+/* responsive on mobile device */
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.5rem;
+  }
+  .subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* ======= End Hero Section ========*/
+
+/* ======= Match Card ========*/
+
+.home_time {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.match-date {
+  line-height: 1rem !important;
+  word-spacing: 0.1rem !important;
+  color: white !important;
+}
+
+/* Match Card Header */
+.match-date .day {
+  display: inline-block !important;
+  font-size: 2.8rem !important;
+}
+
+.match-date .info {
+  text-transform: uppercase !important;
+  display: inline-block !important;
+  word-spacing: normal !important;
+}
+
+.match-date .weekday {
+  color: #fff !important;
+  display: block !important;
+  font-size: 1rem !important;
+  line-height: 1.3rem !important;
+  font-weight: bold !important;
+}
+
+.match-date .month {
+  color: #fff !important;
+  display: inline-block;
+  font-weight: 200 !important;
+  font-size: 1.2rem;
+  margin: 0 !important;
+}
+
+.team-names {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #154284;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+.vs {
+  font-family: fcb-light, Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-weight: 300;
+  color: #222;
+  font-size: 0.75rem;
+}
+
+.stadium {
+  font-size: 0.8rem;
+  text-align: center;
+  margin-top: 0.2rem;
+}
+
+/* ======================
+     Match Detail Page
+========================= */
+
+.match_header-btn {
+  font-weight: 600 !important;
+}
+
+.match_hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/frontend/images/page-covers/match-detail.jpg');
+  height: calc(85vh - 70px);
+}
+
+.match_league {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white;
+}
+
+.match_time {
+  font-size: 3.4rem;
+  font-weight: 700;
+}
+
+.match_date {
+  font-weight: 700 !important;
+  color: white !important;
+}
+
+.match_date .day {
+  font-size: 1.8rem !important;
+  background: linear-gradient(#f8f8f8, #d8e3f4, #3077e2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: white;
+  line-height: 2.5rem;
+}
+
+.match_date .month {
+  font-size: 1.2rem;
+  letter-spacing: -0.01rem;
+  line-height: 1.4rem;
+}
+
+.match_stadium {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: white;
+  background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgba(182, 182, 193, 1) 45%, rgba(255, 255, 255, 1) 82%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.match_category-title {
+  font-size: 1.8rem;
+  /* only border for bottom */
+  padding-bottom: 1.6rem;
+  border-bottom: 0.2rem dashed #9aa0a7;
+}
+
+.match_category-includes {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 1.6rem;
+}
+
+.match_category-includes p i {
+  font-size: 1.8rem;
+}
+
+.match_category-btn {
+  background: linear-gradient(45deg, #1e2341, #1c2341, #0c1a33) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+.match_category-btn:hover {
+  border-color: #0c1a33 !important;
+  background: white !important;
+  color: #0c1a33 !important;
+}
+
+/* countdown */
+.countdown__clock {
+  color: white;
+  display: flex;
+  flex: 1;
+  margin-top: -0.4rem;
+  align-items: center;
+}
+
+.countdown__clock-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.countdown__count {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.countdown__value {
+  font-family: fcb-extra-bold, Arial, Helvetica Neue, Helvetica, sans-serif !important;
+  font-weight: 400;
+}
+
+.countdown__separator {
+  display: inline-block;
+  margin: 0 0.2rem;
+  font-family: fcb-light, Arial, Helvetica Neue, Helvetica, sans-serif !important;
+  font-weight: 400;
+}
+
+.countdown__count-label {
+  font-size: 0.8rem;
+  color: #fdc52c;
+  font-family: fcb-bold, Arial, Helvetica Neue, Helvetica, sans-serif !important;
+  font-weight: 400;
+  padding-right: 0.6rem;
+}
+
+/* ======================
+     Season Ticket Page
+========================= */
+.seat_hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/frontend/images/page-covers/match-detail.jpg');
+  height: calc(600px - 70px);
+}
+
+.carousel .carousel-item {
+  height: calc(75vh - 70px);
+}
+
+/* change the positon of the img that is inside the carousel-item  to top aligment  */
+.carousel-item img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-height: 100%;
+  min-width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.dark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.seat {
+  border: 1px solid #dee2e6 !important;
+  transition: all 0.3s ease !important;
+}
+
+.seat:hover {
+  background: rgba(17, 29, 55, 1) !important;
+  cursor: pointer !important;
+}
+
+.active-seat {
+  background: rgba(17, 29, 55, 1) !important;
+  color: #fdc52c !important;
+}
+
+.seat:hover span {
+  color: #fdc52c !important;
+}
+
+.hover {
+  background: rgba(98, 157, 52, 0.3) !important;
+}
+
+/* ======================
+     Checkout Page
+========================= */
+.paymentMethods label {
+  /* while hover make shadow and scale a little bit with transition */
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  background: white;
+}
+
+.paymentMethods label:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 0.5rem 0.1rem rgba(0, 0, 0, 0.2);
+}
+
+.checkout-card {
+  box-shadow: 0 0 0.6rem rgb(0 0 0 / 10%) !important;
+}
+
+/* ======================
+     About Page
+========================= */
+.about_hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/frontend/images/page-covers/match-detail.jpg');
+  height: calc(60vh - 70px);
+}
+
+#about,
+#goals {
+  margin-bottom: 5rem !important;
+}
+
+.about_title,
+.about_goal-title .about_contact-title {
+  font-size: 1.8rem !important;
+  font-weight: 600;
+}
+
+/* after about_title make border bottom  */
+.about_title:after,
+.about_goal-title:after,
+.about_contact-title:after {
+  content: '';
+  display: block;
+  width: 20rem;
+  height: 0.2rem;
+  background: #fdc52c;
+  margin-top: 0.8rem;
+  border-radius: 0.5rem;
+}
+
+.about_title + p {
+  line-height: 1.8rem;
+  font-size: 1.2rem;
+}
+
+.about_goal-title:after {
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,0 +1,38 @@
+<?php
+
+return [
+    'yes_delete'                => 'Yes, delete it',
+    'cancel'                    => 'Cancel',
+    'edit'                      => 'Edit',
+    'delete'                    => 'Delete',
+    'close'                     => 'Close',
+    'submit'                    => 'Submit',
+    "update"                    => "Update",
+    'view'                      => 'View',
+    "ok"                        => "Ok",
+    'yes'                       => 'Yes',
+    'no'                        => 'No',
+    "reset"                     => "Reset",
+    "export"                    => "Export",
+    "import"                    => "Import",
+    "cancel"                    => "Cancel",
+    "accept"                    => "Accept",
+    "export_template_excel"     => "Export Template (Excel)",
+    "export_template_csv"       => "Export Template (CSV)",
+    "select_all"                => "Select All",
+    "deselect_all"              => "Deselect All",
+    "view_details"              => "View Details",
+    "continue"                  => "Continue",
+    "pay_now"                   => "Pay Now",
+    "go_to_home"                => "Go to Home",
+    "ok"                        => "OK",
+    "back"                      => "Back",
+    "send"                      => "Send",
+    "edit"                      => "Edit",
+
+    //resources
+    "edit_resource"             => "Edit :Resource",
+    "add_resource"              => "Add New :Resource",
+    "delete_resource"           => "Delete :Resource",
+    "view_resource"             => "View :Resource",
+];

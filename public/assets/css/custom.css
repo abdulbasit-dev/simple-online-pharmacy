@@ -1,0 +1,53 @@
+.swal-error {
+  background-color: #f8d7da !important;
+  width: 70vw;
+}
+
+/* on date input types, open datepicker on click the input  */
+input[type='datetime-local']::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+
+.badge-fastpay {
+  background-color: #ec3062 !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.badge-card-selling {
+  background-color: #2b335e !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.badge-stripe {
+  background-color: #6059FE !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.badge-swish {
+  background-color: #473787 !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.badge-website {
+  background-color: #eff5f8 !important;
+  color: #2b335e !important;
+  font-weight: 500 !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+

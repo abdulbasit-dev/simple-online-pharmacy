@@ -1,0 +1,117 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use DataTables;
+
+class {{ class }} extends Controller
+{
+    public function index(Request $request)
+    {
+        //check permission
+        $this->authorize("{{ modelVariable }}_view");
+
+        if ($request->ajax()) {
+            $data = {{ model }}::query();
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->setRowClass(fn ($row) => 'align-middle')
+            ->addColumn('action', function ($row) {
+                $td = '<td>';
+                $td .= '<div class="d-flex">';
+                    if (auth()->user()->can("{{ modelVariable }}_view"))
+                     $td .= '<a href="' . route('admin.{{ modelVariable }}s.show', $row->id) . '" type="button" class="btn btn-sm btn-primary waves-effect waves-light me-1">' . __('buttons.view') . '</a>';
+                    if (auth()->user()->can("{{ modelVariable }}_edit"))
+                     $td .= '<a href="' . route('admin.{{ modelVariable }}s.edit', $row->id) . '" type="button" class="btn btn-sm btn-info waves-effect waves-light me-1">' . __('buttons.edit') . '</a>';
+                    if (auth()->user()->can("{{ modelVariable }}_delete"))
+                    $td .= '<a href="javascript:void(0)" data-id="' . $row->id . '" data-url="' . route('admin.{{ modelVariable }}s.destroy', $row->id). '"  class="btn btn-sm btn-danger delete-btn">' . __('buttons.delete') . '</a>';
+                $td .= "</div>";
+                $td .= "</td>";
+                return $td;
+            })
+            ->editColumn("created_at", fn($row) => formatDate($row->created_at))
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+
+        return view('{{ modelVariable }}s.index');
+    }
+
+    public function create()
+    {
+        //check permission
+        $this->authorize("{{ modelVariable }}_add");
+
+        return view('{{ modelVariable }}s.create');
+    }
+
+    public function store({{ model }}Request $request)
+    {
+        //check permission
+        $this->authorize("{{ modelVariable }}_add");
+
+        try {
+            $validated = $request->validated();
+            {{ model }}::create($validated);
+
+            return redirect()->route('admin.{{ modelVariable }}s.index')->with([
+                "message" =>  __('messages.success'),
+                "icon" => "success",
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                "message" =>  $th->getMessage(),
+                "icon" => "error",
+            ]);
+        }
+    }
+
+    public function show({{ model }} ${{ modelVariable }})
+    {
+        //check permission
+        $this->authorize("{{ modelVariable }}_view");
+
+        return view('{{ modelVariable }}s.show', compact("{{ modelVariable }}"));
+    }
+
+    public function edit({{ model }} ${{ modelVariable }})
+    {
+        //check permission
+        $this->authorize("{{ modelVariable }}_edit");
+
+        return view('{{ modelVariable }}s.edit', compact("{{ modelVariable }}"));
+    }
+
+    public function update({{ model }}Request $request, {{ model }} ${{ modelVariable }})
+    {
+        //check permission
+        $this->authorize("{{ modelVariable }}_edit");
+
+        try {
+            $validated = $request->validated();
+            ${{ modelVariable }}->update($validated);
+
+            return redirect()->route('admin.{{ modelVariable }}s.index')->with([
+                "message" =>  __('messages.update'),
+                "icon" => "success",
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                "message" =>  $th->getMessage(),
+                "icon" => "error",
+            ]);
+        }
+    }
+
+    public function destroy({{ model }} ${{ modelVariable }})
+    {
+        //check permission
+        $this->authorize("{{ modelVariable }}_delete");
+
+        ${{ modelVariable }}->delete();
+        return redirect()->route('admin.{{ modelVariable }}s.index');
+    }
+}
