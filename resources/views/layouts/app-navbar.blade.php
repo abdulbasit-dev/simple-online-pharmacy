@@ -10,22 +10,10 @@
               <a class="nav-link" aria-current="page" href="{{ route('index') }}">@lang('app.navbar.home')</a>
             </li>
 
-            <li class="nav-item {{ request()->routeIs('seasonTicket') ? 'active-link' : '' }}">
-              <a class="nav-link" href="{{ route('seasonTicket') }}#season-ticket">@lang('app.navbar.season_ticket')</a>
-            </li>
-
-            <li class="nav-item {{ request()->routeIs('match-ticket.*') ? 'active-link' : '' }}">
-              <a class="nav-link" href="{{ route('match-ticket.index') }}">@lang('app.navbar.match_tickets')</a>
-            </li>
-
             <li class="nav-item {{ request()->routeIs('contacts.index') ? 'active-link' : '' }}">
               <a class="nav-link" href="{{ route('contacts.index') }}">@lang('app.navbar.contact_us')</a>
             </li>
-
-            {{-- <li class="nav-item">
-              <a class="nav-link active-link text-white" href="https://www.dalkurd.se/index.php/klubben/om-oss" target="_blank">@lang('app.navbar.about')</a>
-            </li> --}}
-
+            
             {{-- REMOVE 🧹 --}}
             @if (config('app.env') == 'local' || config('app.env') == 'dev')
               <li class="nav-item">

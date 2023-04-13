@@ -8,13 +8,11 @@ use App\Http\Controllers\{
     CheckoutController,
     MatchTicketController,
     SeasonTicketController,
-    StripePaymentController,
-    SwishPaymentController,
 };
 
 // pages
-// Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::redirect('/', '/admin', 301)->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');
+// Route::redirect('/', '/admin', 301)->name('index');
 Route::view('/about', "frontend.pages.about")->name('about');
 Route::view('/coming-soon', "frontend.pages.coming-soon")->name('comingSoon');
 
@@ -42,28 +40,6 @@ Route::group(["prefix" => "match-ticket", "as" => "match-ticket."], function () 
 Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout.index');
 Route::post('checkout/create-order', [CheckoutController::class, 'createOrder'])->name('checkout.createOrder');
 // Route::post('checkout/swish-payment', [CheckoutController::class, 'swishPayment'])->name('checkout.swishPayment');
-
-// Payment
-Route::group(["prefix" => "payment", "as" => "payment."], function () {
-    //swish payment
-    Route::group(["prefix" => "swish", "as" => "swish."], function () {
-        Route::get('payment-request/{orderId}', [SwishPaymentController::class, 'paymentRequest'])->name('paymentRequest');
-        Route::post('callback', [SwishPaymentController::class, 'callback'])->name('callback');
-    });
-
-    //stripe payment
-    Route::group(["prefix" => "stripe", "as" => "stripe."], function () {
-        Route::get('create-checkout-session', [StripePaymentController::class, 'createSession'])->name('createSession');
-        Route::post('webhook', [StripePaymentController::class, 'webhook'])->name('webhook');
-        Route::get('success', [StripePaymentController::class, 'success'])->name('success');
-        Route::get('cancel', [StripePaymentController::class, 'cancel'])->name('cancel');
-    });
-
-    Route::get('success', [CheckoutController::class, 'success'])->name('success');
-    Route::get('cancel', [CheckoutController::class, 'cancel'])->name('cancel');
-    // Route::get('cancel', [CheckoutController::class, 'cancel'])->name('cancel');
-    Route::get('download-ticket/{orderId}', [CheckoutController::class, 'ticketDownload'])->name('ticketDownload');
-});
 
 //Language Translation
 Route::get('index/{locale}', [HomeController::class, 'lang']);

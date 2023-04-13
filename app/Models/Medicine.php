@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\CreatedByTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -14,11 +13,11 @@ class Medicine extends Model implements HasMedia
 
     protected $guarded = [];
 
-
-    // public function getRouteKeyName()
-    // {
-    //     return 'slug';
-    // }
+    // scopes
+    public function scopeNotExpire($query)
+    {
+        return $query->whereDate('expire_at', '>=', now());
+    }
 
     // relationships
     public function type()
