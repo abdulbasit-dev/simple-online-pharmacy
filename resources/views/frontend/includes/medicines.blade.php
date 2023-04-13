@@ -2,12 +2,12 @@
      <div class="row gy-2">
        @forelse ($medicines as $medicine)
          <div class="col-lg-4">
-           <div class="card">
+           <div class="card card-shadow">
              <div class="card-body">
                <h4 class="card-title">{{ $medicine->name }}</h4>
                <h6 class="card-subtitle font-14 text-muted">{{ $medicine->type->name }}</h6>
              </div>
-             <img class="img-fluid" src="https://th.bing.com/th/id/OIP.pIaPlko7bsYW2fmCZPElHgHaHa?w=207&h=207&c=7&r=0&o=5&pid=1.7" alt="Card image cap">
+             <img class="img-fluid medicine-image" src="{{getFile($medicine)}}" alt="{{ $medicine->name }}">
              <div class="card-body">
                <p class="card-text">{{ $medicine->description }}</p>
                <a href="javascript: void(0);" class="card-link">View Datail</a>

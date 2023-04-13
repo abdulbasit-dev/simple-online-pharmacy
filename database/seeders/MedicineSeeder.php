@@ -17,21 +17,33 @@ class MedicineSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $medicines = [
+            "Paracetamol",
+            "Albuterol",
+            "Panadol",
+            "Eucerin",
+            "Levothyroxine",
+            "amoxicillin",
+            "vitamin-d",
+        ];
+
         $faker = Factory::create();
-        foreach (range(1, 10) as $i) {
-            $name = $faker->name;
-            Medicine::create([
+        foreach ($medicines as $medicine) {
+            $newMedicine = Medicine::create([
                 "type_id" => Type::inRandomOrder()->first()->id,
                 "origin_id" => Origin::inRandomOrder()->first()->id,
-                "name" => $name,
-                "slug" => Str::slug($name),
+                "name" => $medicine,
+                "slug" => Str::slug($medicine),
                 "price" => round(rand(500, 100000), -2),
                 "quantity" => rand(1, 100),
-                // "image" => $faker->imageUrl(),
-                "description" => $faker->text,
+                "description" => $faker->realText(200),
                 "manufacture_at" => $faker->dateTimeBetween('-1 years', 'now'),
                 "expire_at" => $faker->dateTimeBetween('now', '+2 years'),
             ]);
+
+            $path = "/assets/images/medicines/" . Str::lower($medicine) . ".jpeg";
+            $newMedicine->addMedia(public_path() . $path)->preservingOriginal()->usingName($newMedicine->name)->toMediaCollection();
         }
     }
 }

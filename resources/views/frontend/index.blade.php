@@ -72,7 +72,7 @@
 
 @section('script')
   <script type="text/javascript">
-    const getMatches = (data = {}) => {
+    const getMedicines = (data = {}) => {
       $.ajax({
         url: "{{ route('index') }}",
         method: "GET",
@@ -82,12 +82,21 @@
         }
       });
     }
+
     // filter
-    $(document).on('change', '#team', function() {
+    $(document).on('change', '#type', function() {
       data = {
-        teamId: $(this).val()
+        typeId: $(this).val()
       }
-      getMatches(data);
+      getMedicines(data);
+    });
+
+    // filter
+    $(document).on('change', '#origin', function() {
+      data = {
+        originId: $(this).val()
+      }
+      getMedicines(data);
     });
 
     // search
@@ -95,13 +104,13 @@
       data = {
         search: $(this).val()
       }
-      getMatches(data);
+      getMedicines(data);
     });
 
 
     //when click the reset button
     $(document).on('click', '.resetBtn', function() {
-      getMatches();
+      getMedicines();
     });
   </script>
 @endsection
