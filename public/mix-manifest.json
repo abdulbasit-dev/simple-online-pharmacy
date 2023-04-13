@@ -1,4 +1,8 @@
 {
     "/assets/frontend/css/app.css": "/assets/frontend/css/app.css",
+    "/assets/frontend/css/icons.css": "/assets/frontend/css/icons.css",
+    "/assets/frontend/css/bootstrap.css": "/assets/frontend/css/bootstrap.css",
+    "/assets/frontend/css/bootstrap.min.css": "/assets/frontend/css/bootstrap.min.css",
+    "/assets/frontend/css/icons.min.css": "/assets/frontend/css/icons.min.css",
     "/assets/frontend/css/app.min.css": "/assets/frontend/css/app.min.css"
 }
