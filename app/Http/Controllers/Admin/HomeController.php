@@ -19,39 +19,49 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $totalGames = Game::notExpire()->count();
-        $totalTeams = Team::count();
-        $totalCategories = Category::count();
-        $availableTickets = Ticket::notExpire()->count();
+        // $totalGames = Game::notExpire()->count();
+        // $totalTeams = Team::count();
+        // $totalCategories = Category::count();
+        // $availableTickets = Ticket::notExpire()->count();
 
-        $matches = Game::all()->map(function ($match) {
-            return [
-                "id" => $match->id,
-                "name" => $match->home->name . " " . __('translation.vs') . " " . $match->away->name . " | " . formatDateWithTimezone($match->match_time),
-                "home_logo" => getFile($match->home),
-                "away_logo" => getFile($match->away),
-                "home_name" => $match->home->name,
-                "away_name" => $match->away->name,
-            ];
-        });
+        // $matches = Game::all()->map(function ($match) {
+        //     return [
+        //         "id" => $match->id,
+        //         "name" => $match->home->name . " " . __('translation.vs') . " " . $match->away->name . " | " . formatDateWithTimezone($match->match_time),
+        //         "home_logo" => getFile($match->home),
+        //         "away_logo" => getFile($match->away),
+        //         "home_name" => $match->home->name,
+        //         "away_name" => $match->away->name,
+        //     ];
+        // });
 
-        // get last 5 games
-        $lastMatches = Game::query()->withCount('tickets')->orderBy("match_time", "desc")->take(5)->get();
-        // check if there is any match
-        if ($lastMatches->count() > 0) {
-            $latestMatchId = $lastMatches->first()->id;
-        } else {
-            $latestMatchId = null;
-        }
+        // // get last 5 games
+        // $lastMatches = Game::query()->withCount('tickets')->orderBy("match_time", "desc")->take(5)->get();
+        // // check if there is any match
+        // if ($lastMatches->count() > 0) {
+        //     $latestMatchId = $lastMatches->first()->id;
+        // } else {
+        //     $latestMatchId = null;
+        // }
+
+        // $data = [
+        //     'totalMatch' => $totalGames,
+        //     "totalTeams" => $totalTeams,
+        //     "totalCategories" => $totalCategories,
+        //     "availableTickets" => $availableTickets,
+        //     "lastMatches" => $lastMatches,
+        //     "matches" => $matches,
+        //     "latestMatchId" => $latestMatchId,
+        // ];
 
         $data = [
-            'totalMatch' => $totalGames,
-            "totalTeams" => $totalTeams,
-            "totalCategories" => $totalCategories,
-            "availableTickets" => $availableTickets,
-            "lastMatches" => $lastMatches,
-            "matches" => $matches,
-            "latestMatchId" => $latestMatchId,
+            'totalMatch' => 0,
+            "totalTeams" => 0,
+            "totalCategories" => 0,
+            "availableTickets" => 0,
+            "lastMatches" => [],
+            "matches" => [],
+            "latestMatchId" =>1 ,
         ];
 
         return view('admin.index', compact('data'));

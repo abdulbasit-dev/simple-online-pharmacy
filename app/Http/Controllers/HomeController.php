@@ -14,44 +14,8 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $matchesQuery = Game::query()
-            ->notExpire()
-            ->whereHas("tickets")
-            ->with(
-                [
-                    "home:id,name",
-                    "away:id,name",
-                    "league:id,name",
-                ]
-            )
-            ->orderBy("match_time");
+        $matchesQuery = [];
 
-        if ($request->ajax()) {
-            $matchesQuery->when($request->teamId, function ($query, $teamId) {
-                return $query->where("home_id", $teamId)
-                    ->orWhere("away_id", $teamId);
-            });
-            $matchesQuery->when($request->search, function ($query, $search) {
-                return $query->whereHas("home", function ($query) use ($search) {
-                    $query->where("name", "like", "%$search%");
-                })->orWhereHas("away", function ($query) use ($search) {
-                    $query->where("name", "like", "%$search%");
-                });
-            });
-
-            if (strtotime($request->startDate) && strtotime($request->endDate)) {
-                $matchesQuery->whereBetween("match_time", [
-                    Carbon::parse($request->startDate)->startOfDay(),
-                    Carbon::parse($request->endDate)->endOfDay(),
-                ]);
-            }
-
-            $matches = $matchesQuery->get();
-            return view('frontend.includes.matches', compact('matches'));
-        }
-
-        $matches = $matchesQuery->get();
-        $teams = Team::all();
 
         return view('frontend.index', compact('matches', 'teams',));
     }
