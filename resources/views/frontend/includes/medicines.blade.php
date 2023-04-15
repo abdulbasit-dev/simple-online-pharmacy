@@ -7,10 +7,10 @@
                <h4 class="card-title">{{ $medicine->name }}</h4>
                <h6 class="card-subtitle font-14 text-muted">{{ $medicine->type->name }}</h6>
              </div>
-             <img class="img-fluid medicine-image" src="{{getFile($medicine)}}" alt="{{ $medicine->name }}">
+             <img class="img-fluid medicine-image" src="{{ getFile($medicine) }}" alt="{{ $medicine->name }}">
              <div class="card-body">
                <p class="card-text">{{ $medicine->description }}</p>
-               <a href="javascript: void(0);" class="card-link">View Datail</a>
+               <a href="{{ route('medicineDetail', $medicine) }}" class="card-link">View Datail</a>
              </div>
            </div>
          </div>

@@ -17,7 +17,6 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-
         $medicinesQuery = Medicine::query()
             ->notExpire()
             ->with(
@@ -55,6 +54,11 @@ class HomeController extends Controller
         // $origins = Origin::pluck('name', 'id');
         $origins = Medicine::select('origin_id', 'name')->distinct()->pluck('name', 'origin_id');
         return view('frontend.index', compact('types', 'origins', 'medicines'));
+    }
+
+    public function medicineDetail(Medicine $medicine)
+    {
+        return $medicine;
     }
 
     /*Language Translation*/

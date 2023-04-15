@@ -12,6 +12,7 @@ use App\Http\Controllers\{
 
 // pages
 Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/medicine-detail/{medicine:slug}', [HomeController::class, 'medicineDetail'])->name('medicineDetail');
 // Route::redirect('/', '/admin', 301)->name('index');
 Route::view('/about', "frontend.pages.about")->name('about');
 Route::view('/coming-soon', "frontend.pages.coming-soon")->name('comingSoon');
