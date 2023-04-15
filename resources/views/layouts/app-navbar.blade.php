@@ -1,19 +1,19 @@
     <nav class="navbar nav navbar-expand-lg bg-darkblue">
       <div class="container">
-        <a class="navbar-brand" href="{{ route('index') }}"><img src="{{ URL::asset('assets/images/logo.png') }}" class="avatar-sm" alt=""></a>
+        <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ URL::asset('assets/images/logo.png') }}" class="avatar-sm" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item {{ request()->routeIs('index') ? 'active-link' : '' }}">
-              <a class="nav-link" aria-current="page" href="{{ route('index') }}">@lang('app.navbar.home')</a>
+            <li class="nav-item {{ request()->routeIs('home') ? 'active-link' : '' }}">
+              <a class="nav-link" aria-current="page" href="{{ route('home') }}">@lang('app.navbar.home')</a>
             </li>
 
             <li class="nav-item {{ request()->routeIs('contacts.index') ? 'active-link' : '' }}">
               <a class="nav-link" href="{{ route('contacts.index') }}">@lang('app.navbar.contact_us')</a>
             </li>
-            
+
             {{-- REMOVE 🧹 --}}
             @if (config('app.env') == 'local' || config('app.env') == 'dev')
               <li class="nav-item">

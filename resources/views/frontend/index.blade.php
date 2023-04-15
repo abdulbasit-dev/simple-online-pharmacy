@@ -74,7 +74,7 @@
   <script type="text/javascript">
     const getMedicines = (data = {}) => {
       $.ajax({
-        url: "{{ route('index') }}",
+        url: "{{ route('home') }}",
         method: "GET",
         data: data,
         success: function(data) {

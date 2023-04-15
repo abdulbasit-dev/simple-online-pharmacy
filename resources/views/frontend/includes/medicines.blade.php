@@ -9,7 +9,7 @@
              </div>
              <img class="img-fluid medicine-image" src="{{ getFile($medicine) }}" alt="{{ $medicine->name }}">
              <div class="card-body">
-               <p class="card-text">{{ $medicine->description }}</p>
+               {{-- <p class="card-text">{{ $medicine->description }}</p> --}}
                <a href="{{ route('medicineDetail', $medicine) }}" class="card-link">View Datail</a>
              </div>
            </div>

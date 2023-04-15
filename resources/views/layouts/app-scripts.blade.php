@@ -21,7 +21,7 @@
 @if (Session::has('message'))
   <script>
     Swal.fire({
-      timer: "{{ Session::get('icon') === 'error' ? (Session::get('timer') ? Session::get('timer') : 20000) : (Session::get('timer') ? Session::get('timer') : 1500) }}",
+      timer: "{{ Session::get('icon') === 'error' ? (Session::get('timer') ? Session::get('timer') : 20000) : (Session::get('timer') ? Session::get('timer') : 3000) }}",
       customClass: "{{ Session::get('icon') === 'error' ? 'swal-error' : null }}",
       icon: "{{ Session::get('icon') }}",
       title: "{{ Session::get('title') }}",

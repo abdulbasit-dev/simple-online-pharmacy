@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRequest;
+use App\Models\Customer;
 use App\Models\Game;
 use App\Models\Medicine;
 use App\Models\Origin;
@@ -29,11 +31,9 @@ class HomeController extends Controller
         if ($request->ajax()) {
             $medicinesQuery->when($request->typeId, function ($query, $typeId) {
                 return $query->where("type_id", $typeId);
-
             });
             $medicinesQuery->when($request->originId, function ($query, $originId) {
                 return $query->where("origin_id", $originId);
-
             });
             $medicinesQuery->when($request->search, function ($query, $search) {
                 return $query->whereHas("home", function ($query) use ($search) {
@@ -58,7 +58,36 @@ class HomeController extends Controller
 
     public function medicineDetail(Medicine $medicine)
     {
-        return $medicine;
+        $medicine->load("type:id,name", "origin:id,name");
+        return view('frontend.pages.medicine-detail', compact('medicine'));
+    }
+
+    public function createOrder(OrderRequest $request, Medicine $medicine)
+    {
+        $validated = $request->validated();
+
+
+        $customer = Customer::firstOrCreate(
+            ['phone' => $validated['phone']],
+            ['name' => $validated['name'], 'address' => $validated['address']]
+        );
+
+        $customer->orders()->create([
+            'medicine_id' => $medicine->id,
+            'quantity' => $validated['quantity'],
+            'total' => $medicine->price * $validated['quantity'],
+            'status' => 0,
+        ]);
+
+        // reduce medicine quantity
+        $medicine->update([
+            "quantity" => $medicine->quantity - $validated['quantity'],
+        ]);
+
+        return redirect()->route('home')->with([
+            "message" => "Thank you for your Purchase",
+            "icon" => "success",
+        ]);
     }
 
     /*Language Translation*/
