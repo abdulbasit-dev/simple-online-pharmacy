@@ -12,10 +12,10 @@
         <div class="row">
           <div class="col-xl-10 col-lg-8 text-left">
             <div class="hero-text" data-aos="fade-up" data-aos-duration="1000">
-              <h1 class="text-primary title">Getting Medicine Easyer Than Ever</h1>
-              {{-- <p class="subtitle text-white">
-                Search for your favorite team and get tickets for the next match
-              </p> --}}
+              <h1 class="text-white title">Getting Medicine Easyer Than Ever</h1>
+              <p class="subtitle text-white">
+                Search for medicines and get the best price
+              </p>
             </div>
             <div data-aos="fade-right" data-aos-duration="1000">
               <a href="#matchs" class="btn btn-primary mt-4">Medicines</a>
