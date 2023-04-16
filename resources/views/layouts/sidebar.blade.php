@@ -49,7 +49,7 @@
                 </a>
               </li>
               <li>
-                <a href="{{ route('admin.medicines.index', ['status' => 'today']) }}" class="{{ request()->get('status') == 'today' ? 'active' : '' }}" key="t-products">Expired Medicines
+                <a href="{{ route('admin.medicines.index', ['status' => 'expired']) }}" class="{{ request()->get('status') == 'expired' ? 'active' : '' }}" key="t-products">Expired Medicines
                   <span class="badge rounded-pill bg-info float-end status-badge d-none" id="expiredMedicine"></span>
                 </a>
               </li>

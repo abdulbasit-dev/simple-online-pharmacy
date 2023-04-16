@@ -26,16 +26,8 @@ class MedicineController extends Controller
                 ->withCount('orders')
                 ->when($request->status, function ($query) use ($request) {
                     switch ($request->status) {
-                        case 'today':
-                            return $query->whereDate('medicine_time', Carbon::today());
-                            break;
-
-                        case 'upcoming':
-                            return $query->whereDate('medicine_time', '>', Carbon::today());
-                            break;
-
-                        case 'finished':
-                            return  $query->whereDate('medicine_time', '<', Carbon::today());
+                        case 'expired':
+                            return  $query->whereDate('expire_at', '<', Carbon::today());
                             break;
                         default:
                             return $query;

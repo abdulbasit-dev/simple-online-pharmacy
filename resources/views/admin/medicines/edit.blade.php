@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-  @lang('translation.edit_resource', ['resource' => __('attributes.match')])
+  Edit Medicine
 @endsection
 
 @section('plugin-css')
@@ -12,13 +12,13 @@
 @section('content')
   @component('components.breadcrumb')
     @slot('li_1')
-      @lang('translation.match.match')
+      Medicines
     @endslot
     @slot('li_2')
-      {{ route('admin.matches.index') }}
+      {{ route('admin.medicines.index') }}
     @endslot
     @slot('title')
-      @lang('translation.edit_resource', ['resource' => __('attributes.match')])
+      Edit Medicine
     @endslot
   @endcomponent
 
