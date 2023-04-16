@@ -81,7 +81,7 @@ class OrderController extends Controller
         return view('admin.orders.show', compact("order"));
     }
 
-    public function changeStatus(Request $request, Order $order)
+    public function changeStatus(Request $request, Order $order)    
     {
         try {
             $status = 0;
@@ -89,6 +89,9 @@ class OrderController extends Controller
                 $status = OrderStatus::ACCEPTED;
             } else if ($request->status == 'cancel') {
                 $status = OrderStatus::CANCELED;
+                $order->medicine->update([
+                    "quantity" => $order->medicine->quantity + $order->quantity,
+                ]);
             }
 
             $order->update([

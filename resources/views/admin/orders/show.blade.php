@@ -35,7 +35,17 @@
                   <table class="table-borderless mb-0 table">
                     <tbody>
                       <tr>
-                        <th scope="row">#</th>
+                        <th scope="row">Order ID:</th>
+                        <td>{{ $order->id }}</td>
+                      </tr>
+
+                      <tr>
+                        <th scope="row">Medicine ID:</th>
+                        <td>{{ $order->medicine->id }}</td>
+                      </tr>
+
+                      <tr>
+                        <th scope="row">Order ID:</th>
                         <td>{{ $order->id }}</td>
                       </tr>
 
