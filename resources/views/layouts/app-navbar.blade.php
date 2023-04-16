@@ -9,10 +9,10 @@
             <li class="nav-item {{ request()->routeIs('home') ? 'active-link' : '' }}">
               <a class="nav-link" aria-current="page" href="{{ route('home') }}">@lang('app.navbar.home')</a>
             </li>
-
+{{-- 
             <li class="nav-item {{ request()->routeIs('contacts.index') ? 'active-link' : '' }}">
               <a class="nav-link" href="{{ route('contacts.index') }}">@lang('app.navbar.contact_us')</a>
-            </li>
+            </li> --}}
 
             {{-- REMOVE 🧹 --}}
             @if (config('app.env') == 'local' || config('app.env') == 'dev')

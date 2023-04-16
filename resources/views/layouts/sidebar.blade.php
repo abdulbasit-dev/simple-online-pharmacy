@@ -60,7 +60,7 @@
           </li>
         @endcan
 
-        {{-- orders --}}
+        {{-- orders
         @can('order_view')
           <li>
             <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->routeIs('admin.season-orders.*') ? 'mm-active' : '' }}">
@@ -94,49 +94,7 @@
 
             </ul>
           </li>
-        @endcan
-
-
-        @if (config('app.sandbox'))
-          {{-- SandBox --}}
-          <li>
-            <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->routeIs('admin.sandbox.*') ? 'mm-active' : '' }}">
-              <i class='bx bx-package'></i>
-              <span>SandBox</span>
-            </a>
-            <ul class="sub-menu {{ request()->routeIs('admin.teams.*') ? 'mm-show' : '' }}" aria-expanded="false">
-              <li><a href="{{ route('admin.sandbox.qrcodeViewer') }}" key="t-products">QrCode Viewer</a></li>
-              <li><a href="{{ route('admin.sandbox.stadiumMap') }}" key="t-products">Stadium Map</a></li>
-              <li><a href="{{ route('admin.sandbox.mail.renderSeasonTicket') }}" key="t-products">Render Season Ticket Mail</a></li>
-              <li><a href="{{ route('admin.sandbox.mail.sendSeasonTicket') }}" key="t-products">Send Season Ticket Mail</a></li>
-              <li><a href="{{ route('admin.sandbox.invoice') }}" key="t-products">Ticket Invoice</a></li>
-            </ul>
-          </li>
-        @endif
-
-        {{-- contatcs --}}
-        @can('contact_view')
-          <li>
-            <a href="{{ route('admin.contacts.index') }}" class="waves-effect">
-              <i class='bx bx-mail-send'></i>
-              <span key="t-contact">@lang('sidebar.contacts')</span>
-            </a>
-          </li>
-        @endcan
-
-        {{-- banners --}}
-        @can('banner_view')
-          <li>
-            <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->routeIs('admin.banners.*') ? 'mm-active' : '' }}">
-              <i class='bx bx-package'></i>
-              <span>Banners</span>
-            </a>
-            <ul class="sub-menu {{ request()->routeIs('admin.banners.*') ? 'mm-show' : '' }}" aria-expanded="false">
-              <li><a href="{{ route('admin.banners.index') }}" key="t-products">Season Ticket Banner</a></li>
-              <li><a href="{{ route('admin.banners.create') }}" key="t-products">Add New Banner</a></li>
-            </ul>
-          </li>
-        @endcan
+        @endcan --}}
 
         {{-- users & role mangement --}}
         @can('user_view')

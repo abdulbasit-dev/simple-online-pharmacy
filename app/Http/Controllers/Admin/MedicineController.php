@@ -180,7 +180,6 @@ class MedicineController extends Controller
         //check permission
         $this->authorize("medicine_edit");
 
-
         // begin transaction
         DB::beginTransaction();
         try {

@@ -2,13 +2,12 @@
 
 namespace App\Notifications;
 
-use App\Models\Contact;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ContactNotification extends Notification
+class NewOrderNotification extends Notification
 {
     use Queueable;
 
@@ -17,9 +16,9 @@ class ContactNotification extends Notification
      *
      * @return void
      */
-    public function __construct(public Contact $contact)
+    public function __construct()
     {
-        $this->contact = $contact;
+        //
     }
 
     /**
@@ -30,7 +29,7 @@ class ContactNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', "database"];
+        return ["database"];
     }
 
     /**
@@ -42,9 +41,9 @@ class ContactNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('You Get New Notification From Customer.')
-            ->action('See Message', route("admin.contacts.show", $this->contact->id))
-            ->line('Thank you for using our application!');
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -56,9 +55,9 @@ class ContactNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Customer Message',
-            "desc"    => "New message from customer",
-            'icon'    => 'bx bx-message-rounded-dots',
+            'message' => "New Order",
+            "desc"    => "You have new order, please check it",
+            'icon'    => 'bx bx-package',
         ];
     }
 }

@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Models\Customer;
-use App\Models\Game;
 use App\Models\Medicine;
-use App\Models\Origin;
-use App\Models\Team;
-use App\Models\Type;
-use Carbon\Carbon;
+use App\Models\User;
+use App\Notifications\NewOrderNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -64,30 +63,65 @@ class HomeController extends Controller
 
     public function createOrder(OrderRequest $request, Medicine $medicine)
     {
-        $validated = $request->validated();
+        // TODO:
+        // - wrap in try catch ✅
+        // - check if medicine quantity is enough ✅
+        // - use DB transaction ✅
+        // - fire an event to send notification to admin and check medicines quantity
 
+        // begin transaction
+        DB::beginTransaction();
 
-        $customer = Customer::firstOrCreate(
-            ['phone' => $validated['phone']],
-            ['name' => $validated['name'], 'address' => $validated['address']]
-        );
+        try {
+            $validated = $request->validated();
 
-        $customer->orders()->create([
-            'medicine_id' => $medicine->id,
-            'quantity' => $validated['quantity'],
-            'total' => $medicine->price * $validated['quantity'],
-            'status' => 0,
-        ]);
+            // check if medicine quantity is enough
+            if ($medicine->quantity < $validated['quantity']) {
+                return redirect()->back()->with([
+                    "message" =>  "Medicine quantity is not enough, remaining quantity is $medicine->quantity",
+                    "icon" => "warning",
+                    "timer" => 3000,
+                ]);
+            }
 
-        // reduce medicine quantity
-        $medicine->update([
-            "quantity" => $medicine->quantity - $validated['quantity'],
-        ]);
+            $customer = Customer::firstOrCreate(
+                ['phone' => $validated['phone']],
+                ['name' => $validated['name'], 'address' => $validated['address']]
+            );
 
-        return redirect()->route('home')->with([
-            "message" => "Thank you for your Purchase",
-            "icon" => "success",
-        ]);
+            $customer->orders()->create([
+                'medicine_id' => $medicine->id,
+                'quantity' => $validated['quantity'],
+                'total' => $medicine->price * $validated['quantity'],
+                'status' => 0,
+            ]);
+
+            // reduce medicine quantity
+            $medicine->update([
+                "quantity" => $medicine->quantity - $validated['quantity'],
+            ]);
+            // send notification to admins
+            $notifiableUsers = User::role(['admin'])->get();
+            Notification::send($notifiableUsers, new NewOrderNotification());
+
+            // commit transaction
+            DB::commit();
+
+            return redirect()->route('home')->with([
+                "message" => "Thank you for your Purchase",
+                "icon" => "success",
+            ]);
+        } catch (\Throwable $th) {
+            // rollback transaction
+            DB::rollback();
+
+            // throw $th;
+            return redirect()->back()->with([
+                "message" =>  "Something went wrong",
+                "icon" => "error",
+                "timer" => 3000,
+            ]);
+        }
     }
 
     /*Language Translation*/

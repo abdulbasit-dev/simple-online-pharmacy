@@ -154,6 +154,13 @@
   <!-- Magnific Popup-->
   <script src="{{ URL::asset('/assets/libs/magnific-popup/magnific-popup.min.js') }}"></script>
 
+  @if ($errors->any())
+    <script>
+      // show modal
+      $('#orderModal').modal('show');
+    </script>
+  @endif
+
   <script>
     // init magnific popup
     $(".medicineImageLightBox").magnificPopup({
@@ -172,8 +179,8 @@
     })
 
     $(document).ready(function() {
-        // show modal
-        $('#orderModal').modal('show');
+      // show modal
+      $('#orderModal').modal('show');
     })
   </script>
 @endsection
