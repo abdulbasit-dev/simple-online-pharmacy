@@ -116,9 +116,6 @@
           {
             data: 'name',
           },
-        //   {
-        //     data: 'information',
-        //   },
           {
             data: 'type',
           },

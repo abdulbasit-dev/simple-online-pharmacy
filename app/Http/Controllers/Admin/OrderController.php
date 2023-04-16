@@ -81,7 +81,7 @@ class OrderController extends Controller
         return view('admin.orders.show', compact("order"));
     }
 
-    public function changeStatus(Request $request, Order $order)    
+    public function changeStatus(Request $request, Order $order)
     {
         try {
             $status = 0;

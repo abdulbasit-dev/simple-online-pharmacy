@@ -79,23 +79,33 @@ class MedicineController extends Controller
                     $td .= "</td>";
                     return $td;
                 })
-                // ->addColumn('information', function ($row) {
-                //     $td = '<td>';
-                //     $td .= '<div class="">';
-
-                //     $td .= '<p class="fw-bold">Type: <span class="badge badge-pill badge-soft-primary font-size-13 p-1 ms-2">' . $row->type->name  ?? "---". '</span></p>';
-                //     $td .= '<p class="fw-bold">Origin: <span class="badge badge-pill badge-soft-info font-size-13  px-2 py-1 ms-2">' . $row->origin->name ?? "---"  . '</span></p>';
-                //     $td .= "</div>";
-                //     $td .= "</td>";
-                //     return $td;
-                // })
+                ->editColumn('expire_at', function ($row) {
+                    // check if one month remain to expire
+                    $diff = getDayDiff($row->expire_at);
+                    if ($diff <= 30 && $diff > 0) {
+                        return '<span class="badge badge-pill badge-soft-warning font-size-13">' . formatDate($row->expire_at) . '</span>';
+                    } elseif ($diff <= 0) {
+                        return '<span class="badge badge-pill badge-soft-danger font-size-13">' . formatDate($row->expire_at) . '</span>';
+                    } else {
+                        return formatDate($row->expire_at);
+                    }
+                })
+                ->editColumn('quantity', function ($row) {
+                    $qty = $row->quantity;
+                    $stockAlert = 10;
+                    if ($qty <= $stockAlert && $qty > 0) {
+                        return '<span class="badge badge-pill badge-soft-warning font-size-13 p-2">' . $qty . '</span>';
+                    } elseif ($qty == 0) {
+                        return '<span class="badge badge-pill badge-soft-danger font-size-13 p-2">' . $qty . '</span>';
+                    } else {
+                        return '<span class="badge badge-pill badge-soft-info font-size-13 p-2">' . $qty . '</span>';
+                    }
+                })
                 ->addColumn("type", fn ($row) => '<span class="badge badge-pill badge-soft-primary font-size-13 p-2">' . $row->type->name ?? "---" . '</span>')
                 ->addColumn("origin", fn ($row) => '<span class="badge badge-pill badge-soft-warning font-size-13 p-2">' . $row->origin->name ?? "---" . '</span>')
-                ->addColumn("quantity", fn ($row) => '<span class="badge badge-pill badge-soft-info font-size-13 p-2">' . $row->quantity . '</span>')
                 ->editColumn("price", fn ($row) => formatPrice($row->price))
-                ->editColumn("expire_at", fn ($row) => formatDate($row->expire_at))
                 ->editColumn("created_at", fn ($row) => formatDate($row->created_at))
-                ->rawColumns(['action', 'image', 'type', 'origin', 'information', 'quantity'])
+                ->rawColumns(['action', 'image', 'type', 'origin', 'information', 'quantity', "expire_at"])
                 ->make(true);
         }
 
