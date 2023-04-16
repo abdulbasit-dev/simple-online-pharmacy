@@ -9,7 +9,7 @@
             <li class="nav-item {{ request()->routeIs('home') ? 'active-link' : '' }}">
               <a class="nav-link" aria-current="page" href="{{ route('home') }}">@lang('app.navbar.home')</a>
             </li>
-{{-- 
+{{--
             <li class="nav-item {{ request()->routeIs('contacts.index') ? 'active-link' : '' }}">
               <a class="nav-link" href="{{ route('contacts.index') }}">@lang('app.navbar.contact_us')</a>
             </li> --}}
@@ -23,17 +23,15 @@
           </ul>
 
           {{-- language changer --}}
-          <div class="dropdown d-inline-block ms-auto">
+          {{-- <div class="dropdown d-inline-block ms-auto">
             <button type="button" class="lang-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               @switch(App::getLocale())
                 @case('sv')
                   Svenska
-                  {{-- <img src="{{ URL::asset('/assets/images/flags/kurdistan.jpg') }}" alt="کوردی" height="16"> --}}
                 @break
 
                 @default
                   English
-                  {{-- <img src="{{ URL::asset('/assets/images/flags/us.jpg') }}" alt="english" height="16"> --}}
               @endswitch
             </button>
             <div class="dropdown-menu dropdown-menu-start lang-dropdown">
@@ -47,7 +45,7 @@
                 <img src="{{ URL::asset('/assets/images/flags/se.png') }}" alt="swedish flag" class="me-1" height="12"> <span class="align-middle">Svenska</span>
               </a>
             </div>
-          </div>
+          </div> --}}
         </div>
       </div>
       </div>
