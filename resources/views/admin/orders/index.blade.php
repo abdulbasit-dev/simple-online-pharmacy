@@ -53,6 +53,40 @@
             <tbody></tbody>
           </table>
 
+          <div class="modal fade" id="changeStatusModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <form method="POST" class="w-100" id="changeStatusForm" action="">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Order Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    @csrf
+                    <div class="mt-4">
+                      <div class="form-check form-radio-outline form-radio-success mb-3">
+                        <input class="form-check-input" type="radio" name="status" value="accept" id="accept" checked="">
+                        <label class="form-check-label" for="accept">
+                          Accept
+                        </label>
+                      </div>
+                      <div class="form-check form-radio-outline form-radio-danger">
+                        <input class="form-check-input" type="radio" name="status" value="cancel" id="cancel">
+                        <label class="form-check-label" for="cancel">
+                          Cancel
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('buttons.close')</button>
+                    <button type="submit" class="btn btn-primary submit-btn">@lang('buttons.submit')</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
         </div>
       </div>
     </div> <!-- end col -->
@@ -150,6 +184,59 @@
 
       // add margin top to the pagination and info
       $('.dataTables_info, .dataTables_paginate').addClass('mt-3');
+    });
+
+    // change status modal
+    let changeStatusModal = document.getElementById('changeStatusModal')
+
+    changeStatusModal.addEventListener('show.bs.modal', function(event) {
+      // Button that triggered the modal
+      let button = event.relatedTarget
+
+      // Update the modal's content.
+      document.getElementById('changeStatusForm').action = button.getAttribute('data-url');
+    });
+
+    // on form submit send ajax request
+    $(".submit-btn").click(function(e) {
+      e.preventDefault();
+      let form = $("#changeStatusForm");
+      let url = form.attr('action');
+      let data = form.serialize();
+
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        success: function(data) {
+          $('#changeStatusModal').modal('hide');
+          Swal.fire({
+            timer: "1000",
+            text: data.message,
+            icon: "success"
+          }).then(function() {
+            table.draw();
+          });
+
+        },
+        error: function(data) {
+          if (data.responseJSON.status === 500) {
+            Swal.fire({
+              timer: "20000",
+              title: data.responseJSON.message,
+              text: data.responseJSON.errors,
+              customClass: "swal-error",
+              icon: "error",
+            })
+          }
+
+          Swal.fire({
+            timer: "2000",
+            text: data.responseJSON.message,
+            icon: "warning",
+          });
+        }
+      });
     });
   </script>
 @endsection

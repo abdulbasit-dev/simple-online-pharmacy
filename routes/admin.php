@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'admin.'], function () {
 
     // orders
     Route::resource("orders", OrderController::class)->only(["index", 'show']);
+    Route::post('orders/{order}/change-status', [OrderController::class, 'changeStatus'])->name('orders.changeStatus');
 
     //users
     Route::resource("users", UserController::class);

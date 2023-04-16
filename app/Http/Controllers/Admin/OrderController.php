@@ -5,13 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\Game;
-use App\Models\Gate;
-use App\Models\Store;
-use App\Models\Ticket;
 use Illuminate\Http\Request;
 use DataTables;
-use Illuminate\Support\Str;
+use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
@@ -22,7 +18,7 @@ class OrderController extends Controller
 
         if ($request->ajax()) {
             $data = Order::query()
-                ->with("medicine", "customer")
+                ->with("medicine:id,name", "customer:id,name")
                 ->when($request->status, function ($query) use ($request) {
                     switch ($request->status) {
                         case 'pending':
@@ -60,8 +56,8 @@ class OrderController extends Controller
                     $td .= '<div class="d-flex justify-content-center">';
                     if (auth()->user()->can("order_view"))
                         $td .= '<a href="' . route('admin.orders.show', $row->id) . '" type="button" class="btn btn-sm btn-primary waves-effect waves-light me-1">' . __('buttons.view') . '</a>';
-                    if (auth()->user()->can("edit_view"))
-                        $td .= '<a href="' . route('admin.orders.show', $row->id) . '" type="button" class="btn btn-sm btn-info waves-effect waves-light me-1">Change Status</a>';
+                    if (auth()->user()->can("order_edit"))
+                        $td .= '<button type="button" class="btn btn-sm btn-info waves-effect waves-light me-1 cancel-btn" data-bs-toggle="modal" data-bs-target="#changeStatusModal" data-url="' . route("admin.orders.changeStatus", $row->id) . '">Change Status</button>';
                     $td .= "</div>";
                     $td .= "</td>";
                     return $td;
@@ -83,5 +79,27 @@ class OrderController extends Controller
 
         $order->load("match", "ticket:id,seat_id,category_id", "ticket.category:id,name", "store:id,name");
         return view('admin.orders.show', compact("order"));
+    }
+
+    public function changeStatus(Request $request, Order $order)
+    {
+
+        try {
+
+            $status = 0;
+            if ($request->status == 'accept') {
+                $status = OrderStatus::ACCEPTED;
+            } else if ($request->status == 'cancel') {
+                $status = OrderStatus::CANCELED;
+            }
+
+            $order->update([
+                'status' => $status
+            ]);
+
+            return $this->jsonResponse(true, "Order status updated successfully.", Response::HTTP_CREATED);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => showErrorMessage($th)], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
