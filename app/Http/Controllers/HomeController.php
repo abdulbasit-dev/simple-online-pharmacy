@@ -35,11 +35,7 @@ class HomeController extends Controller
                 return $query->where("origin_id", $originId);
             });
             $medicinesQuery->when($request->search, function ($query, $search) {
-                return $query->whereHas("home", function ($query) use ($search) {
-                    $query->where("name", "like", "%$search%");
-                })->orWhereHas("away", function ($query) use ($search) {
-                    $query->where("name", "like", "%$search%");
-                });
+                return $query->where("name", "like", "%$search%");
             });
 
             $medicines = $medicinesQuery->get();
@@ -48,10 +44,10 @@ class HomeController extends Controller
 
         $medicines = $medicinesQuery->get();
 
-        // $types = Type::pluck('name', 'id');
-        $types = Medicine::select('type_id', 'name')->distinct()->pluck('name', 'type_id');
-        // $origins = Origin::pluck('name', 'id');
-        $origins = Medicine::select('origin_id', 'name')->distinct()->pluck('name', 'origin_id');
+
+        $types = Medicine::orderBy('id')->get()->unique('type_id')->sortBy('types.name')->pluck('type.name', 'type_id');
+        $origins = Medicine::orderBy('id')->get()->unique('origin_id')->sortBy('origins.name')->pluck('origin.name', 'origin_id');
+
         return view('frontend.index', compact('types', 'origins', 'medicines'));
     }
 
