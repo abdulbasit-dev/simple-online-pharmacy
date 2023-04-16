@@ -23,7 +23,7 @@
       @lang('sidebar.dashboard')
     @endslot
   @endcomponent
-
+<h1>Dashboard</h1>
 
   {{-- <div class="row">
     <div class="col-xl-12">
