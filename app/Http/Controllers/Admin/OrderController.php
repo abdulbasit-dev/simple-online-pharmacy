@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Game;
@@ -21,15 +22,18 @@ class OrderController extends Controller
 
         if ($request->ajax()) {
             $data = Order::query()
-                ->with("ticket:id,seat_id,category_id", "ticket.category:id,name", "store:id,name")
+                ->with("medicine", "customer")
                 ->when($request->status, function ($query) use ($request) {
                     switch ($request->status) {
-                        case 'current-match-order':
-                            return $query->where('expire_at', '>=', now());
+                        case 'pending':
+                            return $query->where('status', OrderStatus::PENDING->value);
                             break;
 
-                        case 'expired-order':
-                            return $query->where('expire_at', '<', now());
+                        case 'accepted':
+                            return $query->where('status', OrderStatus::ACCEPTED->value);
+                            break;
+                        case 'canceled':
+                            return $query->where('status', OrderStatus::CANCELED->value);
                             break;
                         default:
                             return $query;
@@ -39,34 +43,11 @@ class OrderController extends Controller
                 ->when($request->matchId, function ($query) use ($request) {
                     return $query->where('match_id', $request->matchId);
                 })
-                ->when($request->gateNo, function ($query) use ($request) {
-                    return $query->where('gate_no', $request->gateNo);
-                })
-                ->when($request->store, function ($query) use ($request) {
-                    return $query->where('store_id', $request->store);
-                })
-                ->when($request->ticketNumber, function ($query) use ($request) {
-                    return $query->where('ticket_number', "like", "%" . $request->ticketNumber . "%");
-                })
                 ->when($request->serialNumber, function ($query) use ($request) {
                     return $query->where('serial_number', "like", "%" . $request->serialNumber . "%");
                 })
                 ->when($request->transactionId, function ($query) use ($request) {
                     return $query->where('transaction_id', "like", "%" . $request->transactionId . "%");
-                })
-                ->when($request->used, function ($query) use ($request) {
-                    if ($request->used == "used") {
-                        return $query->where('is_used', true);
-                    } else {
-                        return $query->where('is_used', false);
-                    }
-                })
-                ->when($request->expired, function ($query) use ($request) {
-                    if ($request->expired == "expired") {
-                        return $query->where('expire_at', '<', now());
-                    } else {
-                        return $query->where('expire_at', '>=', now());
-                    }
                 })
                 ->when($request->categoryId, function ($query) use ($request) {
                     return $query->whereHas('ticket', function ($query) use ($request) {
@@ -79,69 +60,20 @@ class OrderController extends Controller
                     $td .= '<div class="d-flex justify-content-center">';
                     if (auth()->user()->can("order_view"))
                         $td .= '<a href="' . route('admin.orders.show', $row->id) . '" type="button" class="btn btn-sm btn-primary waves-effect waves-light me-1">' . __('buttons.view') . '</a>';
+                    if (auth()->user()->can("edit_view"))
+                        $td .= '<a href="' . route('admin.orders.show', $row->id) . '" type="button" class="btn btn-sm btn-info waves-effect waves-light me-1">Change Status</a>';
                     $td .= "</div>";
                     $td .= "</td>";
                     return $td;
                 })
-                ->editColumn("store_id", function ($row) {
-                    if (strtolower($row->store->name) == "fastpay") {
-                        return '<span class="badge badge-pill badge-fastpay font-size-13 p-2">' . ucfirst($row->store->name) . '</span>';
-                    } elseif (strtolower($row->store->name) == "website") {
-                        return '<span class="badge badge-pill badge-website font-size-13 p-2">' . ucfirst($row->store->name) . '</span>';
-                    }
-                    // card selling
-                    return '<span class="badge badge-pill badge-card-selling font-size-13 p-2">' . Str::title(str_replace("-", " ", $row->store->name)) . '</span>';
-                })
-                ->editColumn("is_used", function ($row) {
-                    if ($row->is_used) {
-                        return '<span class="badge badge-pill badge-soft-info font-size-13 p-2">' . __("translation.yes") . '</span>';
-                    }
-                    return '<span class="badge badge-pill badge-soft-danger font-size-13 p-2">' . __("translation.no") . '</span>';
-                })
-                ->editColumn("is_expired", function ($row) {
-                    if ($row->expire_at < now()) {
-                        return '<span class="badge badge-pill badge-soft-danger font-size-13 p-2">' . __("translation.yes") . '</span>';
-                    } else {
-                        return '<span class="badge badge-pill badge-soft-success font-size-13 p-2">' . __("translation.no") . '</span>';
-                    }
-                })
-                ->editColumn("payment_status", function ($row) {
-                    if ($row->payment_status == 1) {
-                        return '<span class="badge badge-pill badge-soft-success font-size-13 p-2">Paid</span>';
-                    } else {
-                        return '<span class="badge badge-pill badge-soft-danger font-size-13 p-2">UnPaid</span>';
-                        // return '<span class="badge badge-pill badge-soft-danger font-size-13 p-2">' . $row->payment_status . '</span>';
-                    }
-                })
-                ->addColumn("gate_no", function ($row) {
-                    if ($row->gate_no) {
-                        return  '<span class="badge badge-pill badge-soft-info font-size-13 px-3 py-2 ">' . $row->gate_no . '</span>';
-                    } else {
-                        return  '<span class="badge badge-pill badge-soft-info font-size-13 px-3 py-2 ">-</span>';
-                    }
-                })
-                ->addColumn("privilege", fn ($row) => '<span class="badge badge-pill badge-soft-warning font-size-13 p-2">' . $row->ticket->category->name ?? "---" . '</span>')
-                ->editColumn("price", fn ($row) => formatPrice($row->price))
-                ->editColumn("created_at", fn ($row) => formatDate($row->created_at))
-                ->rawColumns(['action', 'store_id', 'is_used', 'privilege', 'is_expired', 'gate_no', 'payment_status'])
+                ->editColumn("status", fn ($row) => $row->status->getLabelHtml())
+                ->editColumn("total", fn ($row) => formatPrice($row->total))
+                ->editColumn("created_at", fn ($row) => formatDateWithTimezone($row->created_at))
+                ->rawColumns(['action', 'store_id', 'is_used', 'privilege', 'is_expired', 'gate_no', 'status'])
                 ->make(true);
         }
 
-        $matches = Game::whereHas("tickets")->get()->map(function ($match) {
-            return [
-                "id" => $match->id,
-                "name" => $match->home->name . " " . __('translation.vs') . " " . $match->away->name . " | " . formatDateWithTimezone($match->match_time),
-            ];
-        });
-
-        $stores = Store::pluck("name", "id");
-        // remove website from array, for now
-        $stores->forget("3");
-
-        $categories = Ticket::query()->get()->pluck("category.name", "category_id");
-        $gates = Gate::query()->get()->pluck("gate_no");
-
-        return view('admin.orders.index', compact('matches', 'stores', 'categories', 'gates'));
+        return view('admin.orders.index');
     }
 
     public function show(Order $order)

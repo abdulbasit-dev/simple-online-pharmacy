@@ -19,7 +19,7 @@
         @can('origin_view')
           <li>
             <a href="{{ route('admin.origins.index') }}" class="waves-effect">
-              <i class='bx bx-extension'></i>
+              <i class='bx bx-map-pin'></i>
               <span key="t-contact">Origins</span>
             </a>
           </li>
@@ -39,7 +39,7 @@
         @can('medicine_view')
           <li>
             <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->routeIs('admin.medicines.*') ? 'mm-active' : '' }}">
-              <i class='bx bx-football'></i>
+              <i class='bx bx-plus-medical'></i>
               <span key="t-ecommerce">Medicines</span>
             </a>
             <ul class="{{ request()->routeIs('admin.medicines.*') ? 'sub-menu mm-collapse mm-show' : 'sub-menu' }} aria-expanded="false">
@@ -60,41 +60,41 @@
           </li>
         @endcan
 
-        {{-- orders
+        {{-- orders --}}
         @can('order_view')
           <li>
-            <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->routeIs('admin.season-orders.*') ? 'mm-active' : '' }}">
+            <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->routeIs('admin.orders.*') ? 'mm-active' : '' }}">
               <i class="bx bx-receipt"></i>
               <span key="t-ecommerce">Orders</span>
             </a>
-            <ul class="{{ request()->routeIs('admin.season-orders.*') ? 'sub-menu mm-collapse mm-show' : 'sub-menu' }}" aria-expanded="false">
+            <ul class="{{ request()->routeIs('admin.orders.*') ? 'sub-menu mm-collapse mm-show' : 'sub-menu' }}" aria-expanded="false">
               <li>
-                <a href="{{ route('admin.season-orders.index') }}">All Orders
+                <a href="{{ route('admin.orders.index') }}">All Orders
                   <span class="badge rounded-pill bg-info float-end status-badge d-none" id="totalOrders"></span>
                 </a>
               </li>
 
               <li>
-                <a href="{{ route('admin.season-orders.index', ['status' => 'pending']) }}" class="{{ request()->get('status') == 'pending' ? 'active' : '' }}">Pending Orders
+                <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="{{ request()->get('status') == 'pending' ? 'active' : '' }}">Pending Orders
                   <span class="badge rounded-pill bg-info float-end status-badge d-none" id="expiredOrders"></span>
                 </a>
               </li>
 
               <li>
-                <a href="{{ route('admin.season-orders.index', ['status' => 'accepted']) }}" class="{{ request()->get('status') == 'accepted' ? 'active' : '' }}">Accepted Orders
+                <a href="{{ route('admin.orders.index', ['status' => 'accepted']) }}" class="{{ request()->get('status') == 'accepted' ? 'active' : '' }}">Accepted Orders
                   <span class="badge rounded-pill bg-info float-end status-badge d-none" id="expiredOrders"></span>
                 </a>
               </li>
 
               <li>
-                <a href="{{ route('admin.season-orders.index', ['status' => 'canceled']) }}" class="{{ request()->get('status') == 'canceled' ? 'active' : '' }}">Canceled Orders
+                <a href="{{ route('admin.orders.index', ['status' => 'canceled']) }}" class="{{ request()->get('status') == 'canceled' ? 'active' : '' }}">Canceled Orders
                   <span class="badge rounded-pill bg-info float-end status-badge d-none" id="expiredOrders"></span>
                 </a>
               </li>
 
             </ul>
           </li>
-        @endcan --}}
+        @endcan
 
         {{-- users & role mangement --}}
         @can('user_view')

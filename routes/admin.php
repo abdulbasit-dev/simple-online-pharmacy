@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'admin.'], function () {
     Route::resource("medicines", MedicineController::class);
 
     // orders
-    // Route::resource("orders", OrderController::class)->only(["index", 'show']);
+    Route::resource("orders", OrderController::class)->only(["index", 'show']);
 
     //users
     Route::resource("users", UserController::class);

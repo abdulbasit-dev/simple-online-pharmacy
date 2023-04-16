@@ -37,9 +37,9 @@ enum OrderStatus: int
     public function getLabelColor(): string
     {
         return match ($this) {
-            self::PENDING  => "bg-red-900",
-            self::ACCEPTED => "bg-green-500",
-            self::CANCELED => "bg-red-500",
+            self::PENDING  => "badge-soft-warning",
+            self::ACCEPTED => "badge-soft-success",
+            self::CANCELED => "badge-soft-danger",
         };
     }
 
