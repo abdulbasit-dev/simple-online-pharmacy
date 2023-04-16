@@ -26,9 +26,10 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <div class="row align-items-center">
 
-            <div class="col-xl-6 border-xl-end border-3">
+          <div class="row justify-content-between">
+            <div class="col-xl-6 pe-5">
+              <h3 class="border-bottom border-3 text-primary pb-2">Order Detail</h3>
               <div>
                 <div class="table-responsive">
                   <table class="table-borderless mb-0 table">
@@ -39,110 +40,36 @@
                       </tr>
 
                       <tr>
-                        <th scope="row">Order Id</th>
-                        <td>{{ $order->order_id }}</td>
+                        <th scope="row">Medicine Name:</th>
+                        <td>{{ $order->medicine->name }}</td>
                       </tr>
 
                       <tr>
-                        <th scope="row">Ticket Number:</th>
-                        <td>{{ $order->ticket_number }}</td>
+                        <th scope="row">Medicine Price:</th>
+                        <td>{{ formatPrice($order->medicine->price) }}</td>
                       </tr>
+
                       <tr>
-                        <th scope="row">Serial Number:</th>
-                        <td>{{ $order->serial_number }}</td>
+                        <th scope="row">Quantity:</th>
+                        <td>{{ $order->quantity }}</td>
                       </tr>
+
                       <tr>
-                        <th scope="row">Transaction Id:</th>
-                        <td>{{ $order->transaction_id ?? '-----' }}</td>
+                        <th scope="row">Total Price:</th>
+                        <td>{{ formatPrice($order->total) }}</td>
                       </tr>
+
                       <tr>
-                        <th scope="row">Phone:</th>
-                        <td>{{ $order->phone ?? '---' }}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Sold On:</th>
-                        @if (strtolower($order->store->name) == 'fastpay')
-                          <td><span class="badge badge-pill badge-fastpay font-size-13 p-2">{{ ucfirst($order->store->name) }}
-                            </span></td>
-                        @elseif (strtolower($order->store->name) == 'website')
-                          <td><span class="badge badge-pill badge-website font-size-13 p-2">{{ Str::title(str_replace('-', ' ', $order->store->name)) }}</span>
-                          </td>
-                        @else
-                          <td><span class="badge badge-pill badge-card-selling font-size-13 p-2">{{ Str::title(str_replace('-', ' ', $order->store->name)) }}</span>
-                          </td>
-                        @endif
-                      </tr>
-                      <tr>
-                        <th scope="row">Ticket Privilege:</th>
+                        <th scope="row">Status:</th>
                         <td>
-                          <span class="badge badge-pill badge-soft-info font-size-13 p-2">{{ $order->ticket->category->name ?? '---' }}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Seat Category:</th>
-                        <td>
-                          <span class="badge badge-pill badge-soft-info font-size-13 p-2">{{ Str::length($order->ticket->seat->name) > 0 ? $order->ticket->seat->name : '---' }}</span>
+                          {!! $order->status->getLabelHtml() !!}
                         </td>
                       </tr>
 
-                      <tr>
-                        <th scope="row">Gate No:</th>
-                        <td><span class="badge badge-pill badge-soft-info font-size-13 p-2">{{ $order->gate_no ?? '---' }}</span>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <th scope="row">Price:</th>
-                        <td>{{ formatPrice($order->price) }}</td>
-                      </tr>
-
-                      <tr>
-                        <th scope="row">Is Used:</th>
-                        <td>
-                          @if ($order->is_used)
-                            <span class="badge badge-pill badge-soft-info font-size-13 p-2">@lang('translation.yes')</span>
-                          @else
-                            <span class="badge badge-pill badge-soft-danger font-size-13 p-2">@lang('translation.no')</span>
-                          @endif
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <th scope="row">Is Ticket Downloaded:</th>
-                        <td>
-                          @if ($order->is_ticket_downloaded)
-                            <span class="badge badge-pill badge-soft-success font-size-13 p-2">@lang('translation.yes')</span>
-                          @else
-                            <span class="badge badge-pill badge-soft-danger font-size-13 p-2">@lang('translation.no')</span>
-                          @endif
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <th scope="row">Match Time:</th>
-                        <td>{{ formatDateWithTimezone($order->match->match_time) }}</td>
-                      </tr>
                       <tr>
                         <th scope="row">Order At:</th>
                         <td>{{ formatDateWithTimezone($order->created_at) }}</td>
                       </tr>
-                      <tr>
-                        <th scope="row">Expires At:</th>
-                        <td>{{ formatDateWithTimezone($order->expire_at) }}</td>
-                        <td>{{ $order->expires_at }}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Used At:</th>
-                        <td>{{ formatDateWithTimezone($order->used_at) }}</td>
-                      </tr>
-
-                      @if ($order->expire_at < now())
-                        <tr>
-                          <th scope="row">@lang('translation.status')</th>
-                          <td><span class="badge badge-pill badge-soft-danger font-size-13 p-2">@lang('translation.expired')</span>
-                          </td>
-                        </tr>
-                      @endif
 
                     </tbody>
                   </table>
@@ -150,67 +77,141 @@
               </div>
             </div>
 
-            <div class="col-xl-6">
-              <div class="mb-5">
-                <div class="d-flex align-items-center justify-content-center">
-                  <div class="d-flex flex-column align-items-center justify-content-center">
-                    <img src="{{ getFile($order->match->home) }}" class="img-thumbnail avatar-lg">
-                    <span class="text-info mt-2">{{ $order->match->home->name }}</span>
-                  </div>
-                  <span class="text-danger mx-5">{{ __('translation.vs') }}</span>
-                  <div class="d-flex flex-column align-items-center justify-content-center">
-                    <img src="{{ getFile($order->match->away) }}" class="img-thumbnail avatar-lg">
-                    <span class="text-info mt-2">{{ $order->match->away->name }}</span>
-                  </div>
-                </div>
+            <div class="col-xl-6 ps-5">
+              <h3 class="border-bottom border-3 text-primary pb-2">Customer Information</h3>
+              <div>
+                <div class="table-responsive">
+                  <table class="table-borderless mb-0 table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Customer ID:</th>
+                        <td>#{{ $order->customer->id }}</td>
+                      </tr>
 
-                <div class="d-flex justify-content-center">
-                  <div>
-                    <p class="text-uppercase font-size-20 fw-bold mb-0">
-                      {{ Carbon\Carbon::parse($order->match->match_time)->format('l') }}</p>
-                    <p class="font-size-14 fw-bold">{{ Carbon\Carbon::parse($order->match->match_time)->format('d-M') }}
-                    </p>
-                  </div>
-                </div>
-              </div>
+                      <tr>
+                        <th scope="row">Customer Name:</th>
+                        <td>{{ $order->customer->name }}</td>
+                      </tr>
 
-              <div class="bg-light w-100" style="height: 3px; border-radius:15px"></div>
-              {{-- Qr Image --}}
-              <div class="d-flex justify-content-center mt-5">
-                <a class="qrImageLightBox" href="{{ URL::asset($order->qr_image) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to Expand" data-bs-original-title="Click">
-                  <img alt="qr image" src="{{ URL::asset($order->qr_image) }}">
-                </a>
+                      <tr>
+                        <th scope="row">Customer Address:</th>
+                        <td>{{ $order->customer->address }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Customer Phone:</th>
+                        <td>{{ $order->customer->phone }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-
           </div>
           <!-- end row -->
 
+          {{-- action btn --}}
+          <div class="d-flex justify-content-start mt-4">
+            <div>
+              <button type="button" class="btn btn-primary waves-effect waves-light me-1 cancel-btn" data-bs-toggle="modal" data-bs-target="#changeStatusModal" data-url="{{ route('admin.orders.changeStatus', $order->id) }}">Change Status</button>
+            </div>
+          </div>
         </div>
+
       </div>
       <!-- end card -->
     </div>
   </div>
+
+  <div class="modal fade" id="changeStatusModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form method="POST" class="w-100" id="changeStatusForm" action="">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Change Order Status</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            @csrf
+            <div class="mt-4">
+              <div class="form-check form-radio-outline form-radio-success mb-3">
+                <input class="form-check-input" type="radio" name="status" value="accept" id="accept" checked="">
+                <label class="form-check-label" for="accept">
+                  Accept
+                </label>
+              </div>
+              <div class="form-check form-radio-outline form-radio-danger">
+                <input class="form-check-input" type="radio" name="status" value="cancel" id="cancel">
+                <label class="form-check-label" for="cancel">
+                  Cancel
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('buttons.close')</button>
+            <button type="submit" class="btn btn-primary submit-btn">@lang('buttons.submit')</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
   <!-- end row -->
 @endsection
 @section('script')
-  <!-- Magnific Popup-->
-  <script src="{{ URL::asset('/assets/libs/magnific-popup/magnific-popup.min.js') }}"></script>
-
   <script>
-    $(".qrImageLightBox").magnificPopup({
-      type: "image",
-      closeOnContentClick: !0,
-      closeBtnInside: !1,
-      fixedContentPos: !0,
-      mainClass: "mfp-no-margins mfp-with-zoom",
-      image: {
-        verticalFit: !0
-      },
-      zoom: {
-        enabled: !0,
-        duration: 300
-      }
-    })
+    // change status modal
+    let changeStatusModal = document.getElementById('changeStatusModal')
+
+    changeStatusModal.addEventListener('show.bs.modal', function(event) {
+      // Button that triggered the modal
+      let button = event.relatedTarget
+
+      // Update the modal's content.
+      document.getElementById('changeStatusForm').action = button.getAttribute('data-url');
+    });
+
+    // on form submit send ajax request
+    $(".submit-btn").click(function(e) {
+      e.preventDefault();
+      let form = $("#changeStatusForm");
+      let url = form.attr('action');
+      let data = form.serialize();
+
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        success: function(data) {
+          $('#changeStatusModal').modal('hide');
+          Swal.fire({
+            timer: "1000",
+            text: data.message,
+            icon: "success"
+          }).then(function() {
+            location.reload();
+          });
+
+        },
+        error: function(data) {
+          if (data.responseJSON.status === 500) {
+            Swal.fire({
+              timer: "20000",
+              title: data.responseJSON.message,
+              text: data.responseJSON.errors,
+              customClass: "swal-error",
+              icon: "error",
+            })
+          }
+
+          Swal.fire({
+            timer: "2000",
+            text: data.responseJSON.message,
+            icon: "warning",
+          });
+        }
+      });
+    });
   </script>
 @endsection

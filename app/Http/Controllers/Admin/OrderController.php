@@ -77,15 +77,13 @@ class OrderController extends Controller
         //check permission
         $this->authorize("order_view");
 
-        $order->load("match", "ticket:id,seat_id,category_id", "ticket.category:id,name", "store:id,name");
+        $order->load("medicine", "customer");
         return view('admin.orders.show', compact("order"));
     }
 
     public function changeStatus(Request $request, Order $order)
     {
-
         try {
-
             $status = 0;
             if ($request->status == 'accept') {
                 $status = OrderStatus::ACCEPTED;
