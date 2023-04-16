@@ -46,9 +46,8 @@ Route::group(['middleware' => ['auth'], 'as' => 'admin.'], function () {
     //notifications
     Route::post('/mark-as-read', [HomeController::class, 'markNotification'])->name('markNotification');
 
-    //get count of matches
-    Route::get('/match-status-count', [SidebarControler::class, 'matchStatusCount'])->name('matchStatusCount');
-    Route::get('/ticket-status-count', [SidebarControler::class, 'ticketStatusCount'])->name('ticketStatusCount');
+    //sidebar counter
+    Route::get('/medicine-status-count', [SidebarControler::class, 'getMedicineStatusCount'])->name('getMedicineStatusCount');
     Route::get('/order-status-count', [SidebarControler::class, 'orderStatusCount'])->name('orderStatusCount');
 
     //export template for models by passing file type and table name

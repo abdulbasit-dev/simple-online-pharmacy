@@ -45,12 +45,12 @@
             <ul class="{{ request()->routeIs('admin.medicines.*') ? 'sub-menu mm-collapse mm-show' : 'sub-menu' }} aria-expanded="false">
               <li>
                 <a href="{{ route('admin.medicines.index') }}">All Medicines
-                  <span class="badge rounded-pill bg-info float-end status-badge d-none" id="totalMatchs"></span>
+                  <span class="badge rounded-pill bg-info float-end status-badge d-none" id="totalMedicine"></span>
                 </a>
               </li>
               <li>
                 <a href="{{ route('admin.medicines.index', ['status' => 'today']) }}" class="{{ request()->get('status') == 'today' ? 'active' : '' }}" key="t-products">Expired Medicines
-                  <span class="badge rounded-pill bg-info float-end status-badge d-none" id="todayMatchs"></span>
+                  <span class="badge rounded-pill bg-info float-end status-badge d-none" id="expiredMedicine"></span>
                 </a>
               </li>
               @can('match_add')
@@ -76,19 +76,19 @@
 
               <li>
                 <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="{{ request()->get('status') == 'pending' ? 'active' : '' }}">Pending Orders
-                  <span class="badge rounded-pill bg-info float-end status-badge d-none" id="expiredOrders"></span>
+                  <span class="badge rounded-pill bg-info float-end status-badge d-none" id="pendingOrders"></span>
                 </a>
               </li>
 
               <li>
                 <a href="{{ route('admin.orders.index', ['status' => 'accepted']) }}" class="{{ request()->get('status') == 'accepted' ? 'active' : '' }}">Accepted Orders
-                  <span class="badge rounded-pill bg-info float-end status-badge d-none" id="expiredOrders"></span>
+                  <span class="badge rounded-pill bg-info float-end status-badge d-none" id="acceptedOrders"></span>
                 </a>
               </li>
 
               <li>
                 <a href="{{ route('admin.orders.index', ['status' => 'canceled']) }}" class="{{ request()->get('status') == 'canceled' ? 'active' : '' }}">Canceled Orders
-                  <span class="badge rounded-pill bg-info float-end status-badge d-none" id="expiredOrders"></span>
+                  <span class="badge rounded-pill bg-info float-end status-badge d-none" id="canceledOrders"></span>
                 </a>
               </li>
 
@@ -163,34 +163,19 @@
     $(document).ready(function() {
       // remove d-none class from the badge
       $('.status-badge').removeClass('d-none');
-      //   getMatchStatusCount()
-      //   getTicketStatusCount()
-      //   getOrderStatusCount()
+        getMedicineStatusCount()
+        getOrderStatusCount()
     });
 
-    const getMatchStatusCount = () => {
+    const getMedicineStatusCount = () => {
       $.ajax({
-        url: "{{ route('admin.matchStatusCount') }}",
+        url: "{{ route('admin.getMedicineStatusCount') }}",
         type: "GET",
         dataType: "json",
         success: function(data) {
-          $("#totalMatchs").html(data.totalMatches);
-          $("#todayMatchs").html(data.todayMatches);
-          $("#upcomingMatchs").html(data.upcomingMatches);
-          $("#finishedMatchs").html(data.finishedMatches);
-        }
-      });
-    }
-
-    const getTicketStatusCount = () => {
-      $.ajax({
-        url: "{{ route('admin.ticketStatusCount') }}",
-        type: "GET",
-        dataType: "json",
-        success: function(data) {
-          $("#totalTickets").html(data.totalTickets);
-          $("#currentMatcheTickets").html(data.currentMatcheTickets);
-          $("#expiredTickets").html(data.expiredTickets);
+            console.log(data);
+          $("#totalMedicine").html(data.totalMedicine);
+          $("#expiredMedicine").html(data.expiredMedicine);
         }
       });
     }
@@ -202,8 +187,9 @@
         dataType: "json",
         success: function(data) {
           $("#totalOrders").html(data.totalOrders);
-          $("#currentMatcheOrders").html(data.currentMatcheOrders);
-          $("#expiredOrders").html(data.expiredOrders);
+          $("#pendingOrders").html(data.pendingOrders);
+          $("#acceptedOrders").html(data.acceptedOrders);
+          $("#canceledOrders").html(data.canceledOrders);
         }
       });
     }
