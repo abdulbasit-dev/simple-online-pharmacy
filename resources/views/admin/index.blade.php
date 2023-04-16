@@ -25,7 +25,7 @@
   @endcomponent
 
 
-  <div class="row">
+  {{-- <div class="row">
     <div class="col-xl-12">
       <div class="row">
         <div class="col-md-3">
@@ -111,11 +111,11 @@
       </div>
       <!-- end row -->
     </div>
-  </div>
+  </div> --}}
   <!-- end row -->
 
   {{-- last 5 matches --}}
-  <div class="row">
+  {{-- <div class="row">
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
@@ -191,7 +191,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
   <!-- end row -->
 @endsection
 @section('script')
