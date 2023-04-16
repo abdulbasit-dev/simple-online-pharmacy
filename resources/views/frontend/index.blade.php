@@ -12,13 +12,13 @@
         <div class="row">
           <div class="col-xl-10 col-lg-8 text-left">
             <div class="hero-text" data-aos="fade-up" data-aos-duration="1000">
-              <h1 class="text-primary title">Getting Tickets Easyer Than Ever</h1>
-              <p class="subtitle text-white">
+              <h1 class="text-primary title">Getting Medicine Easyer Than Ever</h1>
+              {{-- <p class="subtitle text-white">
                 Search for your favorite team and get tickets for the next match
-              </p>
+              </p> --}}
             </div>
             <div data-aos="fade-right" data-aos-duration="1000">
-              <a href="#matchs" class="btn btn-primary mt-4">Get Match Ticket</a>
+              <a href="#matchs" class="btn btn-primary mt-4">Medicines</a>
             </div>
           </div>
         </div>
