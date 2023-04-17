@@ -548,8 +548,8 @@
 
       </div>
 
-      <a href="{{ route('index') }}" class="ml-4 text-lg uppercase tracking-wider text-gray-300">
-           Back To Home 
+      <a href="{{ route('home') }}" class="ml-4 text-lg uppercase tracking-wider text-gray-300">
+           Back To Home
       </a>
     </div>
   </div>

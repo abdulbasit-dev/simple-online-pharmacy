@@ -13,16 +13,47 @@ use App\Models\Team;
 use App\Models\Ticket;
 use App\Models\Type;
 use App\Models\User;
+use App\Notifications\MedicineStockAlertNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
+use Log;
+use Notification;
 
 class HomeController extends Controller
 {
     public function index()
     {
+
+        // check stock
+        // check if any medicine quantity is less than or equal to stock alert
+        // if so, send MinStockAlertNotification to admin
+        $minStockMedicines = Medicine::where('quantity', '<=', config("app.stock_alert"))->get();
+
+        if ($minStockMedicines->count() > 0) {
+            Log::info("MinStockAlertNotification sent to admin");
+            $notifiableUsers = User::all();
+
+            foreach ($minStockMedicines as $medicine) {
+                // check if the notifcation is already sent and not readed
+                // if so, don't send it again
+                // $isNotified = $medicine->notifications()
+                //     ->where("type", MedicineStockAlertNotification::class)
+                //     ->where("notifiable_id", $notifiableUsers->first()->id)
+                //     ->where("read_at", null)
+                //     ->exists();
+
+                // if ($isNotified) {
+                //     continue;
+                // }
+
+                Notification::send($notifiableUsers, new MedicineStockAlertNotification($medicine));
+            }
+        }
+
+
         $totalOrders = Order::count();
         $totalPendingOrders = Order::where('status', OrderStatus::PENDING)->count();
         $totalAcceptedOrders = Order::where('status', OrderStatus::ACCEPTED)->count();
