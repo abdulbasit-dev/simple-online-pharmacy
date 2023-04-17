@@ -41,10 +41,8 @@ class MedicineRequest extends FormRequest
             "price"          => ['required', 'numeric'],
             "quantity"       => ['required', 'numeric'],
             "image"          => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            "manufacture_at" => [$checkRequired, 'date'],
-            "expire_at"      => [$checkRequired, 'date'],
-            // "manufacture_at" => ['required', 'date', 'before:expire_at'],
-            // "expire_at"      => ['required', 'date', 'after:manufacture_at'],
+            "manufacture_at" => ['required', 'date',  'after:today'],
+            "expire_at"      => ['required', 'date', 'after:manufacture_at'],
         ];
     }
     public function messages()
