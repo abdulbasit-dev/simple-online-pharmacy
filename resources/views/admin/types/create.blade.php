@@ -4,11 +4,10 @@
   Add Type
 @endsection
 
-
 @section('content')
   @component('components.breadcrumb')
     @slot('li_1')
-      Origحns
+      Origins
     @endslot
     @slot('li_2')
       {{ route('admin.types.index') }}
