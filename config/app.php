@@ -14,19 +14,14 @@ return [
     */
 
     'name' => env('APP_NAME', 'DalkurdTicket'),
-    'company_name' => env('COMPANY_NAME', 'Basit Dev'),
     'sandbox' => env('SANDBOX', false), // show or hide the sandbox menu link in sidebar
-    "admin_prefix" => env('ADMIN_PREFIX', 'clubadmin'),
 
-    'fastpay_api_key' => env('FASTPAY_API_KEY', 'CM8EANGR4OMK3SNCJOSNT6VNSV3H7YCRA9AWFE5VVQ4XEMP5QS2JI3Y4KQ2Y191Q'),
-    'card_selling_api_key' => env('CARD_SELLING_API_KEY', 'ZTG6YS29A8ZYR41EEV3TLERZKDU25R16TN2FBB50JC3O2O1B15X3KOU1ON07ZIYZ'),
+
+
     'mobile_api_key' => env('MOBILE_API_KEY', '24PFN3WJ3XVIRFLV99OMQ7NC0XH9UTMB3MGQ5I62M66YRN5DZCFPLXZX3I5U96SC'),
-
-    'fastpay_base_url' => env('FASTPAY_BASE_URL', 'https://staging-apigw-merchant.fast-pay.iq'),
-    'fib_base_url' => env('FIB_BASE_URL', 'https://fib.stage.fib.iq'),
-
-    "aws_url" => env('AWS_URL', 'https://asset.sportsclubticket.com/'),
     "media_disk" => env('MEDIA_DISK', 's3'),
+    "stock_alert" => env('STOCK_ALERT', 10),
+
 
     /*
     |--------------------------------------------------------------------------

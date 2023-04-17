@@ -173,7 +173,6 @@
         type: "GET",
         dataType: "json",
         success: function(data) {
-            console.log(data);
           $("#totalMedicine").html(data.totalMedicine);
           $("#expiredMedicine").html(data.expiredMedicine);
         }

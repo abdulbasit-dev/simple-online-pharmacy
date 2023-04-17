@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Game;
+use App\Models\Medicine;
 use App\Models\Order;
+use App\Models\Origin;
 use App\Models\Team;
 use App\Models\Ticket;
+use App\Models\Type;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -19,77 +23,36 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // $totalGames = Game::notExpire()->count();
-        // $totalTeams = Team::count();
-        // $totalCategories = Category::count();
-        // $availableTickets = Ticket::notExpire()->count();
+        $totalOrders = Order::count();
+        $totalPendingOrders = Order::where('status', OrderStatus::PENDING)->count();
+        $totalAcceptedOrders = Order::where('status', OrderStatus::ACCEPTED)->count();
+        $totalCanceledOrders = Order::where('status', OrderStatus::CANCELED)->count();
 
-        // $matches = Game::all()->map(function ($match) {
-        //     return [
-        //         "id" => $match->id,
-        //         "name" => $match->home->name . " " . __('translation.vs') . " " . $match->away->name . " | " . formatDateWithTimezone($match->match_time),
-        //         "home_logo" => getFile($match->home),
-        //         "away_logo" => getFile($match->away),
-        //         "home_name" => $match->home->name,
-        //         "away_name" => $match->away->name,
-        //     ];
-        // });
+        $totalMedicines = Medicine::count();
+        $totalMinStockMedicines = Medicine::where('quantity', '<=', config("app.stock_alert"))->count();
+        $totalMedicineTypes = Type::count();
+        $totalOrigins = Origin::count();
 
-        // // get last 5 games
-        // $lastMatches = Game::query()->withCount('tickets')->orderBy("match_time", "desc")->take(5)->get();
-        // // check if there is any match
-        // if ($lastMatches->count() > 0) {
-        //     $latestMatchId = $lastMatches->first()->id;
-        // } else {
-        //     $latestMatchId = null;
-        // }
-
-        // $data = [
-        //     'totalMatch' => $totalGames,
-        //     "totalTeams" => $totalTeams,
-        //     "totalCategories" => $totalCategories,
-        //     "availableTickets" => $availableTickets,
-        //     "lastMatches" => $lastMatches,
-        //     "matches" => $matches,
-        //     "latestMatchId" => $latestMatchId,
-        // ];
+        // get last 10 orders
+        $latestOrders = Order::query()
+            ->with("customer:id,name", "medicine:id,name")
+            ->latest()
+            ->take(10)
+            ->get();
 
         $data = [
-            'totalMatch' => 0,
-            "totalTeams" => 0,
-            "totalCategories" => 0,
-            "availableTickets" => 0,
-            "lastMatches" => [],
-            "matches" => [],
-            "latestMatchId" =>1 ,
+            "totalOrders"         => $totalOrders,
+            "totalPendingOrders"  => $totalPendingOrders,
+            "totalAcceptedOrders" => $totalAcceptedOrders,
+            "totalCanceledOrders" => $totalCanceledOrders,
+            "totalMedicines"      => $totalMedicines,
+            "totalMinStockMedicines" => $totalMinStockMedicines,
+            "totalMedicineTypes"  => $totalMedicineTypes,
+            "totalOrigins"        => $totalOrigins,
+            "latestOrders"        => $latestOrders,
         ];
 
         return view('admin.index', compact('data'));
-    }
-
-    public function matchData(Request $request)
-    {
-        $tickets = Ticket::where('match_id', $request->matchId)->get();
-        $orders = Order::where('match_id', $request->matchId)->get();
-
-        $soldTickets = $tickets->sum("sold_qty");
-
-        $usedTicket = $orders->where("is_used", 1)->count();
-        // $unUsedTicket = $orders->where("is_used", 0)->count();
-
-
-        $soldInArena = Order::where('match_id', $request->matchId)->whereHas("localSale")->count();
-        $soldInWebsite = Order::where('match_id', $request->matchId)->whereDoesntHave('localSale')->count();
-
-        $data = [
-            "totalTickets" => $tickets->sum("quantity"),
-            "soldTickets" => $soldTickets,
-            "usedTicket" => $usedTicket,
-            "soldInArena" => $soldInArena,
-            "soldInWebsite" => $soldInWebsite,
-        ];
-
-        return response()->json($data);
     }
 
     public function markNotification(Request $request)

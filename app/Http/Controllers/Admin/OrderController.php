@@ -87,16 +87,21 @@ class OrderController extends Controller
             $status = 0;
             if ($request->status == 'accept') {
                 $status = OrderStatus::ACCEPTED;
+                if ($order->is_rejected) {
+                    $order->medicine->update([
+                        "quantity" => $order->medicine->quantity - $order->quantity,
+                    ]);
+                }
             } else if ($request->status == 'cancel') {
+                $order->is_rejected = true;
                 $status = OrderStatus::CANCELED;
                 $order->medicine->update([
                     "quantity" => $order->medicine->quantity + $order->quantity,
                 ]);
             }
 
-            $order->update([
-                'status' => $status
-            ]);
+            $order->status = $status;
+            $order->save();
 
             return $this->jsonResponse(true, "Order status updated successfully.", Response::HTTP_CREATED);
         } catch (\Throwable $th) {

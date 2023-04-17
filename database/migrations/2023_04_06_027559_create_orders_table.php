@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer("quantity");
             $table->string("total");
             $table->integer("status")->default(0);
+            $table->boolean("is_rejected")->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

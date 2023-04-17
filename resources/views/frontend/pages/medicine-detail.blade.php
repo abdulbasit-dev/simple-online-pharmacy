@@ -180,7 +180,7 @@
 
     $(document).ready(function() {
       // show modal
-      $('#orderModal').modal('show');
+    //   $('#orderModal').modal('show');
     })
   </script>
 @endsection
