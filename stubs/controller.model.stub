@@ -22,11 +22,8 @@ class {{ class }} extends Controller
             ->addColumn('action', function ($row) {
                 $td = '<td>';
                 $td .= '<div class="d-flex">';
-                    if (auth()->user()->can("{{ modelVariable }}_view"))
                      $td .= '<a href="' . route('admin.{{ modelVariable }}s.show', $row->id) . '" type="button" class="btn btn-sm btn-primary waves-effect waves-light me-1">' . __('buttons.view') . '</a>';
-                    if (auth()->user()->can("{{ modelVariable }}_edit"))
                      $td .= '<a href="' . route('admin.{{ modelVariable }}s.edit', $row->id) . '" type="button" class="btn btn-sm btn-info waves-effect waves-light me-1">' . __('buttons.edit') . '</a>';
-                    if (auth()->user()->can("{{ modelVariable }}_delete"))
                     $td .= '<a href="javascript:void(0)" data-id="' . $row->id . '" data-url="' . route('admin.{{ modelVariable }}s.destroy', $row->id). '"  class="btn btn-sm btn-danger delete-btn">' . __('buttons.delete') . '</a>';
                 $td .= "</div>";
                 $td .= "</td>";

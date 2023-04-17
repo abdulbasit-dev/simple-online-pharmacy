@@ -41,7 +41,7 @@
                 <img id="avatar" src="{{ getAvatar(auth()->user()) }}" alt="" class="rounded-circle avatar-lg">
               </div>
               <h5 class="font-size-15 text-truncate userName ms-2">{{ Auth::user()->name }}</h5>
-              <p class="text-primary fw-bold h3 text-truncate ms-2 mb-0">{{ Auth::user()->getRoleNames()[0] }}</p>
+              {{-- <p class="text-primary fw-bold h3 text-truncate ms-2 mb-0">{{ Auth::user()->getRoleNames()[0] }}</p> --}}
             </div>
 
             <div class="">

@@ -17,28 +17,16 @@ class MedicineStockAlertNotification extends Notification
      *
      * @return void
      */
-    public function __construct(public Medicine $medicine)
+    public function __construct(public  $desc)
     {
-        $this->medicine = $medicine;
+        $this->desc = $desc;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
         return ['database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
     {
         return (new MailMessage)
@@ -47,17 +35,11 @@ class MedicineStockAlertNotification extends Notification
             ->line('Thank you for using our application!');
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [
             'message' => "Low Medicine Stock Alert",
-            "desc"    => "Medicine {$this->medicine->name} is running out of stock.",
+            "desc"    => $this->desc,
             'icon'    => 'bx bx-package',
         ];
     }

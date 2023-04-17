@@ -27,9 +27,7 @@
       <div class="card">
         <div class="card-body">
           <div class="d-flex justify-content-end mb-4" id="action_btns">
-            @can('add_league')
               <a href="{{ route('admin.origins.create') }}" class="btn btn-success btn-rounded waves-effect waves-light ms-2"><i class="mdi mdi-plus me-1"></i>@lang('buttons.add_resource', ['resource' => 'Origin'])</a>
-            @endcan
           </div>
           <table id="datatable" class="table-hover table-bordered nowrap w-100 table">
             <thead class="table-light">

@@ -18,9 +18,6 @@ class MedicineController extends Controller
 {
     public function index(Request $request)
     {
-        //check permission
-        $this->authorize("medicine_view");
-
         if ($request->ajax()) {
             $data = Medicine::query()
                 ->withCount('orders')
@@ -41,23 +38,19 @@ class MedicineController extends Controller
                     $td = '<td>';
                     $td .= '<div class="d-flex align-items-center justify-content-center">';
                     // check user permission
-                    if (auth()->user()->can("season_ticket_view"))
-                        $td .= '<a href="' . route('admin.medicines.show', $row->id) . '" type="button" class="btn btn-sm btn-primary waves-effect waves-light me-1">' . __('buttons.view') . '</a>';
-                    if (auth()->user()->can("medicine_edit")) {
-                        if ($row->orders_count > 0) {
-                            $td .= '<a href="javascript:void(0)" type="button" class="btn btn-sm btn-info waves-effect waves-light me-1 disabled"  >' . __('buttons.edit') . '</a>';
-                        } else {
-                            $td .= '<a href="' . route('admin.medicines.edit', $row->id) . '" type="button" class="btn btn-sm btn-info waves-effect waves-light me-1">' . __('buttons.edit') . '</a>';
-                        }
+                    $td .= '<a href="' . route('admin.medicines.show', $row->id) . '" type="button" class="btn btn-sm btn-primary waves-effect waves-light me-1">' . __('buttons.view') . '</a>';
+                    if ($row->orders_count > 0) {
+                        $td .= '<a href="javascript:void(0)" type="button" class="btn btn-sm btn-info waves-effect waves-light me-1 disabled"  >' . __('buttons.edit') . '</a>';
+                    } else {
+                        $td .= '<a href="' . route('admin.medicines.edit', $row->id) . '" type="button" class="btn btn-sm btn-info waves-effect waves-light me-1">' . __('buttons.edit') . '</a>';
                     }
 
-                    if (auth()->user()->can("medicine_delete")) {
-                        if ($row->orders_count > 0) {
-                            $td .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger disabled">' . __('buttons.delete') . '</a>';
-                        } else {
-                            $td .= '<a href="javascript:void(0)" data-id="' . $row->id . '" data-url="' . route('admin.medicines.destroy', $row->id) . '"  class="btn btn-sm btn-danger delete-btn">' . __('buttons.delete') . '</a>';
-                        }
+                    if ($row->orders_count > 0) {
+                        $td .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger disabled">' . __('buttons.delete') . '</a>';
+                    } else {
+                        $td .= '<a href="javascript:void(0)" data-id="' . $row->id . '" data-url="' . route('admin.medicines.destroy', $row->id) . '"  class="btn btn-sm btn-danger delete-btn">' . __('buttons.delete') . '</a>';
                     }
+
 
                     $td .= "</div>";
                     $td .= "</td>";
@@ -106,9 +99,6 @@ class MedicineController extends Controller
 
     public function create()
     {
-        //check permission
-        $this->authorize("medicine_add");
-
         $origins = Origin::pluck("name", "id");
         $types = Type::pluck("name", "id");
 
@@ -117,9 +107,6 @@ class MedicineController extends Controller
 
     public function store(MedicineRequest $request)
     {
-        //check permission
-        $this->authorize("medicine_add");
-
         // begin transaction
         DB::beginTransaction();
         try {
@@ -156,9 +143,6 @@ class MedicineController extends Controller
 
     public function show(Medicine $medicine)
     {
-        //check permission
-        $this->authorize("medicine_view");
-
         $medicine->load("type:id,name", "origin:id,name");
         $medicine->orders_count = $medicine->orders()->count();
 
@@ -167,9 +151,6 @@ class MedicineController extends Controller
 
     public function edit(Medicine $medicine)
     {
-        //check permission
-        $this->authorize("medicine_edit");
-
         $medicine->orders_count = $medicine->orders()->count();
         $origins = Origin::pluck("name", "id");
         $types = Type::pluck("name", "id");
@@ -179,9 +160,6 @@ class MedicineController extends Controller
 
     public function update(MedicineRequest $request, Medicine $medicine)
     {
-        //check permission
-        $this->authorize("medicine_edit");
-
         // begin transaction
         DB::beginTransaction();
         try {
@@ -225,9 +203,6 @@ class MedicineController extends Controller
 
     public function destroy(Medicine $medicine)
     {
-        //check permission
-        $this->authorize("medicine_delete");
-
         if ($medicine->orders()->count() > 0) {
             return redirect()->back()->with([
                 "message" => "medicine Ticket is already in sale, you can not edit it.",

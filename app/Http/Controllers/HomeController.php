@@ -96,8 +96,8 @@ class HomeController extends Controller
             $medicine->update([
                 "quantity" => $medicine->quantity - $validated['quantity'],
             ]);
-            // send notification to admins
-            $notifiableUsers = User::role(['admin'])->get();
+            // send notification to all users
+            $notifiableUsers = User::all();
             Notification::send($notifiableUsers, new NewOrderNotification());
 
             // commit transaction

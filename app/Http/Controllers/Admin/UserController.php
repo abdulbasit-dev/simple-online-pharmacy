@@ -17,9 +17,6 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        //check permission
-        $this->authorize("user_view");
-
         if ($request->ajax()) {
             $data = User::query()
                 ->with('roles');
@@ -27,12 +24,8 @@ class UserController extends Controller
                 ->addColumn('action', function ($row) {
                     $td = '<td>';
                     $td .= '<div class="d-flex">';
-                    // check user permission
-                    if (auth()->user()->can("user_view"))
                         $td .= '<a href="' . route('admin.users.show', $row->id) . '" type="button" class="btn btn-sm btn-primary waves-effect waves-light me-1">' . __('buttons.view') . '</a>';
-                    if (auth()->user()->can("user_edit"))
                         $td .= '<a href="' . route('admin.users.edit', $row->id) . '" type="button" class="btn btn-sm btn-info waves-effect waves-light me-1">' . __('buttons.edit') . '</a>';
-                    if (auth()->user()->can("user_delete"))
                         $td .= '<a href="javascript:void(0)" data-id="' . $row->id . '" data-url="' . route('admin.users.destroy', $row->id) . '"  class="btn btn-sm btn-danger delete-btn">' . __('buttons.delete') . '</a>';
                     $td .= "</div>";
                     $td .= "</td>";
@@ -48,9 +41,6 @@ class UserController extends Controller
 
     public function create()
     {
-        //check permission
-        $this->authorize("user_add");
-
         $roles = Role::all()->pluck('id', 'name')->toArray();
         if (!auth()->user()->hasRole('super-admin')) {
             $roles = Arr::except($roles, 'super-admin');
@@ -62,9 +52,6 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-        //check permission
-        $this->authorize("user_add");
-
         try {
             $validated = $request->safe()->except(['role']);
             $validated['password'] = bcrypt($request->password);
@@ -86,17 +73,11 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        //check permission
-        $this->authorize("user_view");
-
         return view('admin.users.show', compact("user"));
     }
 
     public function edit(User $user)
     {
-        //check permission
-        $this->authorize("user_edit");
-
         $roles = Role::all()->pluck('id', 'name')->toArray();
         if (!auth()->user()->hasRole('super-admin')) {
             $roles = Arr::except($roles, 'super-admin');
@@ -108,9 +89,6 @@ class UserController extends Controller
 
     public function update(UserRequest $request, User $user)
     {
-        //check permission
-        $this->authorize("user_edit");
-
         try {
 
             $validated = $request->safe()->except(['role']);
@@ -133,9 +111,6 @@ class UserController extends Controller
 
     public function destroy(Request $request, User $user)
     {
-        //check permission
-        $this->authorize("user_delete");
-
         if ($request->ajax()) {
             Log::info("ajax request");
             $user->delete();

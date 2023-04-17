@@ -27,10 +27,7 @@
       <div class="card">
         <div class="card-body">
           <div class="d-flex justify-content-end mb-4" id="action_btns">
-            @can('add_role')
-              <a href="{{ route('admin.roles.create') }}" class="btn btn-success btn-rounded waves-effect waves-light ms-2"><i
-                  class="mdi mdi-plus me-1"></i>@lang('buttons.add_resource', ['resource' => __('attributes.role')])</a>
-            @endcan
+            <a href="{{ route('admin.roles.create') }}" class="btn btn-success btn-rounded waves-effect waves-light ms-2"><i class="mdi mdi-plus me-1"></i>@lang('buttons.add_resource', ['resource' => __('attributes.role')])</a>
           </div>
           <div class="table-responsive">
             <table id="datatable" class="table-hover table-bordered nowra w-100 table">
@@ -112,11 +109,11 @@
           text: "@lang('translation.colvisBtn')"
         }]
       });
-      
+
       // select dropdown for change the page length
       $('.dataTables_length select').addClass('form-select form-select-sm');
 
-      // add margin top to the pagination and info 
+      // add margin top to the pagination and info
       $('.dataTables_info, .dataTables_paginate').addClass('mt-3');
     });
   </script>

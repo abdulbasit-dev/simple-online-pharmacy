@@ -46,10 +46,8 @@
       <div class="card">
         <div class="card-body">
           <div class="d-flex justify-content-end mb-4" id="action_btns">
-            @can('match_add')
               <a href="{{ route('admin.medicines.create') }}" class="btn btn-success btn-rounded waves-effect waves-light ms-2"><i
                   class="mdi mdi-plus me-1"></i>Add New Medicine</a>
-            @endcan
           </div>
           <table id="datatable" class="table-hover table-bordered nowrap w-100 table">
             <thead class="table-light">

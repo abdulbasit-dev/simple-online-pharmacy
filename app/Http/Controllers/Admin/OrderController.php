@@ -13,9 +13,6 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        //check permission
-        $this->authorize("order_view");
-
         if ($request->ajax()) {
             $data = Order::query()
                 ->with("medicine:id,name", "customer:id,name")
@@ -54,9 +51,7 @@ class OrderController extends Controller
                 ->addColumn('action', function ($row) {
                     $td = '<td>';
                     $td .= '<div class="d-flex justify-content-center">';
-                    if (auth()->user()->can("order_view"))
                         $td .= '<a href="' . route('admin.orders.show', $row->id) . '" type="button" class="btn btn-sm btn-primary waves-effect waves-light me-1">' . __('buttons.view') . '</a>';
-                    if (auth()->user()->can("order_edit"))
                         $td .= '<button type="button" class="btn btn-sm btn-info waves-effect waves-light me-1 cancel-btn" data-bs-toggle="modal" data-bs-target="#changeStatusModal" data-url="' . route("admin.orders.changeStatus", $row->id) . '">Change Status</button>';
                     $td .= "</div>";
                     $td .= "</td>";
@@ -74,8 +69,6 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        //check permission
-        $this->authorize("order_view");
 
         $order->load("medicine", "customer");
         return view('admin.orders.show', compact("order"));

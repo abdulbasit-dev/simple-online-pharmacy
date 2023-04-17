@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Log;
 use Notification;
@@ -37,19 +38,19 @@ class HomeController extends Controller
             $notifiableUsers = User::all();
 
             foreach ($minStockMedicines as $medicine) {
-                // check if the notifcation is already sent and not readed
-                // if so, don't send it again
-                // $isNotified = $medicine->notifications()
-                //     ->where("type", MedicineStockAlertNotification::class)
-                //     ->where("notifiable_id", $notifiableUsers->first()->id)
-                //     ->where("read_at", null)
-                //     ->exists();
+                $desc = "Medicine {$medicine->name} is running out of stock.";
+                //    check if there a notification with the same desc and read_at null
+                //    if so, don't send notification, because it's already sent and not read yet
+                $existNotification = DB::table('notifications')
+                    ->where('data', 'like', "%{$desc}%")
+                    ->where('read_at', '=', null)
+                    ->get();
 
-                // if ($isNotified) {
-                //     continue;
-                // }
+                if ($existNotification->count() > 0) {
+                    continue;
+                }
 
-                Notification::send($notifiableUsers, new MedicineStockAlertNotification($medicine));
+                Notification::send($notifiableUsers, new MedicineStockAlertNotification($desc));
             }
         }
 
