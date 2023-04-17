@@ -50,10 +50,10 @@
                       <th scope="row">@lang('translation.user.name') :</th>
                       <td>{{ $user->name }}</td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                       <th scope="row">@lang('translation.user.role') :</th>
                       <td>{{ $user->getRoleNames()[0] }}</td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                       <th scope="row">@lang('translation.user.phone') :</th>
                       <td>{{ $user->phone }}</td>

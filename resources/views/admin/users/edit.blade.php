@@ -76,7 +76,7 @@
                     </div>
                   </div>
                 </div>
-
+{{--
                 <div class="row mb-4">
                   <label for="role" class="col-sm-3 col-form-label">@lang('translation.user.role')</label>
                   <div class="col-sm-9">
@@ -93,7 +93,7 @@
                       @lang('validation.required', ['attribute' => __('translation.user.role')])
                     </div>
                   </div>
-                </div>
+                </div> --}}
 
                 <div class="row mb-4">
                   <label for="phone" class="col-sm-3 col-form-label">@lang('translation.user.phone')</label>
@@ -127,7 +127,7 @@
                   <label for="address" class="col-sm-3 col-form-label">@lang('translation.user.address')</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control" id="address" name="address"
-                      value="{{ old('address', $user->address) }}" required>
+                      value="{{ old('address', $user->address) }}">
                     <div class="valid-feedback">
                       @lang('validation.good')
                     </div>

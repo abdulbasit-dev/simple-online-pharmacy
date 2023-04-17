@@ -41,10 +41,10 @@ class UserRequest extends FormRequest
             "name"              => ['required'],
             "email"             => ['required', $checkUniqueEmail],
             "password"          => $passwordRule,
-            "address"           => ['required'],
+            "address"           => ['sometimes', 'nullable'],
             "phone"             => ['required', $checkUniquePhone],
             "phone_alt"         => $phoneAlt,
-            'role'              => ['required'],
+            // 'role'              => ['required'],
         ];
     }
 

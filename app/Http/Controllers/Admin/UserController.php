@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Exports\GeneralExport;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Schema;
-use Maatwebsite\Excel\Facades\Excel;
 use DataTables;
 use Illuminate\Support\Arr;
 use Log;
@@ -70,7 +69,8 @@ class UserController extends Controller
             $validated = $request->safe()->except(['role']);
             $validated['password'] = bcrypt($request->password);
 
-            User::create($validated)->assignRole($request->role);
+            // User::create($validated)->assignRole($request->role);
+            User::create($validated)->assignRole("admin");
 
             return redirect()->route('admin.users.index')->with([
                 "message" =>  __('messages.success'),
@@ -117,7 +117,7 @@ class UserController extends Controller
             $validated['password'] = bcrypt($request->password);
 
             $user->update($validated);
-            $user->syncRoles($request->role);
+            // $user->syncRoles($request->role);
 
             return redirect()->route('admin.users.index')->with([
                 "message" =>  __('messages.update'),
@@ -147,23 +147,5 @@ class UserController extends Controller
             "message" =>  __('messages.delete'),
             "icon" => "success",
         ]);
-    }
-
-    public function export()
-    {
-        //check permission
-        $this->authorize("user_export");
-
-        // get the heading of your file from the table or you can created your own heading
-        $table = "users";
-        $headers = Schema::getColumnListing($table);
-
-        // query to get the data from the table
-        $query = User::all();
-
-        // create file name  
-        $fileName = "user_export_" .  date('Y-m-d_h:i_a') . ".xlsx";
-
-        return Excel::download(new GeneralExport($query, $headers), $fileName);
     }
 }

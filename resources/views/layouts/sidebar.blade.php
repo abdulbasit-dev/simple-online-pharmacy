@@ -112,7 +112,7 @@
           </li>
         @endcan
 
-        @can('role_view')
+        {{-- @can('role_view')
           <li>
             <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->routeIs('admin.roles.*') ? 'mm-active' : '' }}">
               <i class="bx bx-shield-quarter"></i>
@@ -125,7 +125,7 @@
               @endcan
             </ul>
           </li>
-        @endcan
+        @endcan --}}
 
         {{-- Reports --}}
         {{-- @can('report_view')

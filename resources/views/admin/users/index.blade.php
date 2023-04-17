@@ -38,7 +38,7 @@
               <tr>
                 <th>#</th>
                 <th> @lang('translation.user.name')</th>
-                <th> @lang('translation.user.role')</th>
+                {{-- <th> @lang('translation.user.role')</th> --}}
                 <th> @lang('translation.user.phone')</th>
                 <th> @lang('translation.user.email')</th>
                 <th> @lang('translation.created_at')</th>
@@ -78,9 +78,9 @@
           {
             data: 'name'
           },
-          {
-            data: 'roles[0].name'
-          },
+        //   {
+        //     data: 'roles[0].name'
+        //   },
           {
             data: 'phone'
           },
