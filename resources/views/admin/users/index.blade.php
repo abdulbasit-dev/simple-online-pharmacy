@@ -76,9 +76,6 @@
           {
             data: 'name'
           },
-        //   {
-        //     data: 'roles[0].name'
-        //   },
           {
             data: 'phone'
           },

@@ -18,8 +18,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::query()
-                ->with('roles');
+            $data = User::query();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $td = '<td>';
@@ -41,13 +40,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::all()->pluck('id', 'name')->toArray();
-        if (!auth()->user()->hasRole('super-admin')) {
-            $roles = Arr::except($roles, 'super-admin');
-        }
-
-        $roles = array_flip($roles);
-        return view('admin.users.create', compact('roles'));
+        return view('admin.users.create');
     }
 
     public function store(UserRequest $request)
@@ -56,8 +49,7 @@ class UserController extends Controller
             $validated = $request->safe()->except(['role']);
             $validated['password'] = bcrypt($request->password);
 
-            // User::create($validated)->assignRole($request->role);
-            User::create($validated)->assignRole("admin");
+            User::create($validated);
 
             return redirect()->route('admin.users.index')->with([
                 "message" =>  __('messages.success'),
@@ -78,13 +70,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $roles = Role::all()->pluck('id', 'name')->toArray();
-        if (!auth()->user()->hasRole('super-admin')) {
-            $roles = Arr::except($roles, 'super-admin');
-        }
-
-        $roles = array_flip($roles);
-        return view('admin.users.edit', compact("user", 'roles'));
+        return view('admin.users.edit', compact("user"));
     }
 
     public function update(UserRequest $request, User $user)
@@ -95,7 +81,6 @@ class UserController extends Controller
             $validated['password'] = bcrypt($request->password);
 
             $user->update($validated);
-            // $user->syncRoles($request->role);
 
             return redirect()->route('admin.users.index')->with([
                 "message" =>  __('messages.update'),

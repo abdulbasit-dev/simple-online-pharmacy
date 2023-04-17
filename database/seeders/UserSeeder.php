@@ -17,28 +17,28 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->delete();
 
-        // //admin
-        // User::firstOrCreate(
-        //     [
-        //         "email" => "admin@" . strtolower(str_replace(' ', '', config("app.name"))) . ".com",
-        //         "name" => "admin",
-        //         "phone" => '075043591' . rand(10, 99)
-        //     ],
-        //     [
-        //         "password" => bcrypt("password"),
-        //     ]
-        // )->assignRole('admin');
-
         //admin
         User::firstOrCreate(
             [
-                "email" => "basit@" . strtolower(str_replace(' ', '', config("app.name"))) . ".com",
-                "name" => "basit",
-                "phone" => '0750432325',
+                "email" => "admin@" . strtolower(str_replace(' ', '', config("app.name"))) . ".com",
+                "name" => "admin",
+                "phone" => '075043591' . rand(10, 99)
             ],
             [
                 "password" => bcrypt("password"),
             ]
         );
+
+        // //admin
+        // User::firstOrCreate(
+        //     [
+        //         "email" => "basit@" . strtolower(str_replace(' ', '', config("app.name"))) . ".com",
+        //         "name" => "basit",
+        //         "phone" => '0750432325',
+        //     ],
+        //     [
+        //         "password" => bcrypt("password"),
+        //     ]
+        // );
     }
 }

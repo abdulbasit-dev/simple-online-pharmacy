@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'admin.'], function () {
     //origins
     Route::resource("origins", OriginController::class)->except(['show']);
 
+
     //origins
     Route::resource("types", TypeController::class)->except(['show']);
 
