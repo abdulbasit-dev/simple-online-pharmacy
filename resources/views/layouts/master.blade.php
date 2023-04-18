@@ -13,8 +13,6 @@
   @include('layouts.head-css')
 </head>
 
-@section('body')
-
   <body data-sidebar="dark">
   @show
   <!-- Begin page -->
